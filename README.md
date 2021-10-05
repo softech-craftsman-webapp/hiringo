@@ -1,5 +1,4 @@
-# Hiringo Filer Service
-
+# Hiringo Main API
 ## Metrics
 ${API_URL}/metrics
 
