@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+    hiringo:
+        container_name: hiringo
+        build: .
+        volumes:
+            - .:/app
+        env_file:
+            - ./.env
+        environment:
+            - PORT=8888
+
+    nginx:
+        image: nginx:alpine
+        restart: always
+        ports:
+            - "8888:8888"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        links:
+        - hiringo

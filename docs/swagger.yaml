@@ -1,0 +1,14 @@
+basePath: /
+host: 127.0.0.1:5000
+info:
+  contact: {}
+  description: File API Service.
+  title: File Server
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
