@@ -1,0 +1,18 @@
+package model
+
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
+
+type Category struct {
+	gorm.Model
+
+	ID          string         `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()" json:"id"`
+	Name        string         `gorm:"index;type:varchar(64);not null" json:"name"`
+	Description string         `gorm:"null" json:"description"`
+	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt   time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+}
