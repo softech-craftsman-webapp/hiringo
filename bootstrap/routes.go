@@ -4,8 +4,11 @@ import (
 	config "hiringo/config"
 	controller "hiringo/controller"
 	category_controller "hiringo/controller/category"
+	job_controller "hiringo/controller/job"
 	location_controller "hiringo/controller/location"
+	rating_controller "hiringo/controller/rating"
 	transaction_controller "hiringo/controller/transaction"
+	user_detail_controller "hiringo/controller/userDetail"
 	_ "hiringo/docs"
 
 	"github.com/go-playground/validator"
@@ -39,4 +42,16 @@ func InitRoutes(app *echo.Echo) {
 
 	// Transaction
 	access_route.POST("/transactions", transaction_controller.CreateTransaction)
+
+	// Rating
+	access_route.POST("/ratings", rating_controller.CreateRating)
+
+	// Job
+	access_route.POST("/jobs", job_controller.CreateJob)
+	access_route.DELETE("/jobs/:id", job_controller.DeleteJob)
+
+	// User Details
+	access_route.POST("/user-details", user_detail_controller.CreateUserDetail)
+	access_route.PUT("/user-details/:id", user_detail_controller.UpdateUserDetail)
+	access_route.POST("/user-details/:id/reveal", user_detail_controller.RevealUserDetail)
 }

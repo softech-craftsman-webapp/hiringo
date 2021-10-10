@@ -10,11 +10,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @title File Server
+// @title Hiringo API
 // @version 1.0
-// @description File API Service.
+// @description Hiringo API Service.
 
-// @host 127.0.0.1:5000
+// @host 127.0.0.1:8888
 // @BasePath /
 
 // @securityDefinitions.apiKey JWT

@@ -1,4 +1,4 @@
-package location
+package job
 
 import (
 	config "hiringo/config"
@@ -12,34 +12,34 @@ import (
 
 /*
    |--------------------------------------------------------------------------
-   | Delete location
+   | Delete job
    | @JWT via Access Token
    | @Param id
    |--------------------------------------------------------------------------
 */
-// Delete Location
-// @Tags location
-// @Description Delete Location
+// Delete Job
+// @Tags job
+// @Description Delete Job
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Location id"
-// @Success 200 {object} view.Response{payload=view.LocationEmptyView}
+// @Param id path string true "Job id"
+// @Success 200 {object} view.Response{payload=view.JobEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /locations/{id} [delete]
+// @Router /jobs/{id} [delete]
 // @Security JWT
-func DeleteLocation(ctx echo.Context) error {
+func DeleteJob(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 
 	db := config.GetDB()
 
-	location := &model.Location{
+	job := &model.Job{
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&location, "id = ? AND user_id = ?", location.ID, claims.User.ID)
+	db.First(&job, "id = ? AND user_id = ?", job.ID, claims.User.ID)
 
-	if location.UserID != claims.User.ID {
+	if job.UserID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
@@ -52,13 +52,13 @@ func DeleteLocation(ctx echo.Context) error {
 		return view.ApiView(http.StatusForbidden, ctx, resp)
 	}
 
-	result := db.Delete(&location)
+	result := db.Delete(&job)
 
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.LocationEmptyView{
-			ID: location.ID,
+		Payload: &view.JobEmptyView{
+			ID: job.ID,
 		},
 	}
 

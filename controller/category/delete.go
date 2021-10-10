@@ -18,7 +18,7 @@ import (
    |--------------------------------------------------------------------------
 */
 // Delete category
-// @Tags location
+// @Tags category
 // @Description Delete category
 // @Accept  json
 // @Produce  json
