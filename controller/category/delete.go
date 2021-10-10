@@ -33,13 +33,13 @@ func DeleteCategory(ctx echo.Context) error {
 
 	db := config.GetDB()
 
-	category := &model.Location{
+	category := &model.Category{
 		ID: ctx.Param("id"),
 	}
 
 	db.First(&category, "id = ? AND user_id = ?", category.ID, claims.User.ID)
 
-	if category.UserID != claims.User.ID {
+	if category.CreatedByID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",

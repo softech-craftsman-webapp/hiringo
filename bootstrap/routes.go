@@ -5,6 +5,7 @@ import (
 	controller "hiringo/controller"
 	category_controller "hiringo/controller/category"
 	location_controller "hiringo/controller/location"
+	transaction_controller "hiringo/controller/transaction"
 	_ "hiringo/docs"
 
 	"github.com/go-playground/validator"
@@ -35,4 +36,7 @@ func InitRoutes(app *echo.Echo) {
 	// Category
 	access_route.POST("/categories", category_controller.CreateCategory)
 	access_route.DELETE("/categories/:id", category_controller.DeleteCategory)
+
+	// Transaction
+	access_route.POST("/transactions", transaction_controller.CreateTransaction)
 }

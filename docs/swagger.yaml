@@ -19,6 +19,16 @@ definitions:
     - latitude
     - longitude
     type: object
+  location.CreateTransactionRequest:
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+    required:
+    - amount
+    - currency
+    type: object
   view.CategoryEmptyView:
     properties:
       id:
@@ -26,7 +36,7 @@ definitions:
     type: object
   view.CategoryView:
     properties:
-      created_by:
+      created_by_id:
         type: string
       description:
         type: string
@@ -82,6 +92,17 @@ definitions:
       payload: {}
       success:
         type: boolean
+    type: object
+  view.TransactionView:
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+      id:
+        type: string
+      user_id:
+        type: string
     type: object
 host: 127.0.0.1:5000
 info:
@@ -280,6 +301,54 @@ paths:
       - JWT: []
       tags:
       - location
+  /transactions:
+    post:
+      consumes:
+      - application/json
+      description: Create Transaction
+      parameters:
+      - description: Amount and Currency
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/location.CreateTransactionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.TransactionView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - transaction
 securityDefinitions:
   JWT:
     in: header

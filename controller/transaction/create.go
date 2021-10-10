@@ -1,4 +1,4 @@
-package category
+package location
 
 import (
 	config "hiringo/config"
@@ -10,33 +10,33 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type CreateCategoryRequest struct {
-	Name        string `json:"name" validate:"required"`
-	Description string `json:"description"`
+type CreateTransactionRequest struct {
+	Amount   float64 `json:"amount" validate:"required,min=0"`
+	Currency string  `json:"currency" validate:"required,len=3"`
 }
 
 /*
    |--------------------------------------------------------------------------
-   | Create Category
+   | Create Transaction
    | @JWT via Access Token
    |--------------------------------------------------------------------------
 */
-// Create Category
-// @Tags category
-// @Description Create Category
+// Create Transaction
+// @Tags transaction
+// @Description Create Transaction
 // @Accept  json
 // @Produce  json
-// @Param user body CreateCategoryRequest true "Category for Job"
-// @Success 200 {object} view.Response{payload=view.CategoryView}
+// @Param user body CreateTransactionRequest true "Amount and Currency"
+// @Success 200 {object} view.Response{payload=view.TransactionView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /categories [post]
+// @Router /transactions [post]
 // @Security JWT
-func CreateCategory(ctx echo.Context) error {
+func CreateTransaction(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 
 	db := config.GetDB()
-	req := new(CreateCategoryRequest)
+	req := new(CreateTransactionRequest)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -53,13 +53,13 @@ func CreateCategory(ctx echo.Context) error {
 		})
 	}
 
-	category := &model.Category{
-		CreatedByID: claims.User.ID,
-		Name:        req.Name,
-		Description: req.Description,
+	transaction := &model.Transaction{
+		UserID:   claims.User.ID,
+		Amount:   req.Amount,
+		Currency: req.Currency,
 	}
 
-	result := db.Create(&category)
+	result := db.Create(&transaction)
 	/*
 	   |--------------------------------------------------------------------------
 	   | DB relation error
@@ -81,11 +81,11 @@ func CreateCategory(ctx echo.Context) error {
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.CategoryView{
-			ID:          category.ID,
-			CreatedByID: category.CreatedByID,
-			Name:        category.Name,
-			Description: category.Description,
+		Payload: &view.TransactionView{
+			ID:       transaction.ID,
+			UserID:   transaction.UserID,
+			Amount:   transaction.Amount,
+			Currency: transaction.Currency,
 		},
 	}
 
