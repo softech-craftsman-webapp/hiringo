@@ -130,5 +130,5 @@ func CreateLocation(ctx echo.Context) error {
 	// close db
 	config.CloseDB(db).Close()
 
-	return view.ApiView(http.StatusInternalServerError, ctx, resp)
+	return view.ApiView(http.StatusOK, ctx, resp)
 }

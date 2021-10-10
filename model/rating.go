@@ -9,16 +9,15 @@ import (
 type Rating struct {
 	gorm.Model
 
-	ID                     string         `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()" json:"id"`
-	PointsFromRecruiter    int            `gorm:"type:int" json:"points_from_recruiter"`
-	PointsFromProfessional int            `gorm:"type:int" json:"points_from_professional"`
-	CreatedAt              time.Time      `gorm:"autoCreateTime" json:"created_at"`
-	UpdatedAt              time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
-	DeletedAt              gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	ID            string         `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()" json:"id"`
+	Points        int            `gorm:"type:int;not null" json:"points"`
+	SubmittedByID string         `gorm:"type:uuid;not null" json:"submitted_by_id"`
+	CreatedAt     time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt     time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt     gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 
 	// Handled by Auth Service
-	ProfessionalID string `gorm:"type:uuid" json:"professional_id"`
-	RecruiterID    string `gorm:"type:uuid" json:"recruiter_id"`
+	UserID string `gorm:"type:uuid" json:"user_id"`
 
 	// From Contract Table
 	ContractID string `gorm:"type:uuid" json:"contract_id"`
