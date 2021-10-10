@@ -71,5 +71,3 @@ require (
 	github.com/codingsince1985/geo-golang v1.8.1
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
-
-require github.com/google/uuid v1.3.0 // indirect
