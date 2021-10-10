@@ -26,7 +26,7 @@ import (
 // @Success 200 {object} view.Response{payload=view.LocationEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /locations [delete]
+// @Router /locations{id} [delete]
 // @Security JWT
 func DeleteLocation(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

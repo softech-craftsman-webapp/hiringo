@@ -1,5 +1,14 @@
 basePath: /
 definitions:
+  category.CreateCategoryRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
   location.CreateLocationRequest:
     properties:
       latitude:
@@ -9,6 +18,22 @@ definitions:
     required:
     - latitude
     - longitude
+    type: object
+  view.CategoryEmptyView:
+    properties:
+      id:
+        type: string
+    type: object
+  view.CategoryView:
+    properties:
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
     type: object
   view.LocationEmptyView:
     properties:
@@ -65,13 +90,61 @@ info:
   title: File Server
   version: "1.0"
 paths:
-  /locations:
+  /categories:
+    post:
+      consumes:
+      - application/json
+      description: Create Category
+      parameters:
+      - description: Category for Job
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/category.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.CategoryView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - category
+  /categories/{id}:
     delete:
       consumes:
       - application/json
-      description: Delete Location
+      description: Delete category
       parameters:
-      - description: Location id
+      - description: Category id
         in: path
         name: id
         required: true
@@ -86,7 +159,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.LocationEmptyView'
+                  $ref: '#/definitions/view.CategoryEmptyView'
               type: object
         "400":
           description: Bad Request
@@ -112,6 +185,7 @@ paths:
       - JWT: []
       tags:
       - location
+  /locations:
     post:
       consumes:
       - application/json
@@ -134,6 +208,53 @@ paths:
             - properties:
                 payload:
                   $ref: '#/definitions/view.LocationView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - location
+  /locations{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Location
+      parameters:
+      - description: Location id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.LocationEmptyView'
               type: object
         "400":
           description: Bad Request

@@ -26,7 +26,7 @@ import (
 // @Success 200 {object} view.Response{payload=view.CategoryEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /locations [delete]
+// @Router /categories/{id} [delete]
 // @Security JWT
 func DeleteCategory(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
