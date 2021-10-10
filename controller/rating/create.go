@@ -14,6 +14,7 @@ type CreateRatingRequest struct {
 	UserID     string `json:"user_id" validate:"required"`
 	ContractID string `json:"contract_id" validate:"required"`
 	Points     int    `json:"points" validate:"required,gte=1,lte=5"`
+	Comment    string `json:"comment" validate:"required"`
 }
 
 /*
@@ -122,6 +123,7 @@ func CreateRating(ctx echo.Context) error {
 		ContractID:    req.ContractID,
 		UserID:        req.UserID,
 		Points:        req.Points,
+		Comment:       req.Comment,
 	}
 
 	result := db.Create(&rating)
@@ -152,6 +154,7 @@ func CreateRating(ctx echo.Context) error {
 			ContractID:    rating.ContractID,
 			Points:        rating.Points,
 			SubmittedByID: rating.SubmittedByID,
+			Comment:       rating.Comment,
 		},
 	}
 

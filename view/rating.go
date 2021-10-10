@@ -6,6 +6,7 @@ type RatingView struct {
 	ContractID    string `json:"contract_id"`
 	UserID        string `json:"user_id"`
 	Points        int    `json:"points"`
+	Comment       string `json:"comment"`
 }
 
 type RatingEmptyView struct {
