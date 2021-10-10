@@ -18,8 +18,8 @@ type UserDetail struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 
 	// Handled by Auth Service
-	UserId string `gorm:"type:uuid;not null" json:"user_id"`
+	UserID string `gorm:"type:uuid;not null" json:"user_id"`
 
 	// Location from table
-	LocationId string `gorm:"type:uuid" json:"location_id"`
+	LocationID string `gorm:"type:uuid" json:"location_id"`
 }

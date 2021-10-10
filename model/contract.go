@@ -20,9 +20,9 @@ type Contract struct {
 	DeletedAt                gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 
 	// Handled by Auth Service
-	RecruiterId    string `gorm:"type:uuid;not null" json:"recruiter_id"`
-	ProfessionalId string `gorm:"type:uuid;not null" json:"professional_id"`
+	RecruiterID    string `gorm:"type:uuid;not null" json:"recruiter_id"`
+	ProfessionalID string `gorm:"type:uuid;not null" json:"professional_id"`
 
 	// From Transaction Table
-	TransactionId string `gorm:"type:uuid;not null" json:"transaction_id"`
+	TransactionID string `gorm:"type:uuid;not null" json:"transaction_id"`
 }

@@ -21,5 +21,5 @@ type Rating struct {
 	RecruiterID    string `gorm:"type:uuid" json:"recruiter_id"`
 
 	// From Contract Table
-	ContractId string `gorm:"type:uuid" json:"contract_id"`
+	ContractID string `gorm:"type:uuid" json:"contract_id"`
 }

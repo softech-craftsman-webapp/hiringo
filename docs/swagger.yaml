@@ -1,11 +1,164 @@
 basePath: /
+definitions:
+  location.CreateLocationRequest:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+    required:
+    - latitude
+    - longitude
+    type: object
+  view.LocationEmptyView:
+    properties:
+      id:
+        type: string
+    type: object
+  view.LocationView:
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      country_code:
+        type: string
+      county:
+        type: string
+      house_number:
+        type: string
+      id:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      postcode:
+        type: string
+      state:
+        type: string
+      state_code:
+        type: string
+      state_district:
+        type: string
+      street:
+        type: string
+      suburb:
+        type: string
+      user_id:
+        type: string
+    type: object
+  view.Response:
+    properties:
+      message:
+        type: string
+      payload: {}
+      success:
+        type: boolean
+    type: object
 host: 127.0.0.1:5000
 info:
   contact: {}
   description: File API Service.
   title: File Server
   version: "1.0"
-paths: {}
+paths:
+  /locations:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Location
+      parameters:
+      - description: Location id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.LocationEmptyView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - location
+    post:
+      consumes:
+      - application/json
+      description: Create Location
+      parameters:
+      - description: Geolocation coordinates (longitude and latitude)
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/location.CreateLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.LocationView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - location
 securityDefinitions:
   JWT:
     in: header
