@@ -3,6 +3,7 @@ package bootstrap
 import (
 	config "hiringo/config"
 	controller "hiringo/controller"
+	category_controller "hiringo/controller/category"
 	location_controller "hiringo/controller/location"
 	_ "hiringo/docs"
 
@@ -30,4 +31,8 @@ func InitRoutes(app *echo.Echo) {
 	// Location
 	access_route.POST("/locations", location_controller.CreateLocation)
 	access_route.DELETE("/locations/:id", location_controller.DeleteLocation)
+
+	// Category
+	access_route.POST("/categories", category_controller.CreateCategory)
+	access_route.DELETE("/categories/:id", category_controller.DeleteCategory)
 }

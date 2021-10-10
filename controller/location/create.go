@@ -19,7 +19,7 @@ type CreateLocationRequest struct {
 /*
    |--------------------------------------------------------------------------
    | Create Location
-   | @JWT via Acess Token
+   | @JWT via Access Token
    |--------------------------------------------------------------------------
 */
 // Create Location
@@ -49,7 +49,7 @@ func CreateLocation(ctx echo.Context) error {
 
 		return ctx.JSON(http.StatusBadRequest, &view.Response{
 			Success: false,
-			Message: config.GetMessageFromError(err.Error()),
+			Message: "Bad request",
 			Payload: nil,
 		})
 	}

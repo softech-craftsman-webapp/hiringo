@@ -10,6 +10,7 @@ type Category struct {
 	gorm.Model
 
 	ID          string         `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()" json:"id"`
+	CreatedBy   string         `gorm:"type:uuid" json:"created_by"`
 	Name        string         `gorm:"index;type:varchar(64);not null" json:"name"`
 	Description string         `gorm:"null" json:"description"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime" json:"created_at"`

@@ -1,4 +1,4 @@
-package location
+package category
 
 import (
 	config "hiringo/config"
@@ -12,34 +12,34 @@ import (
 
 /*
    |--------------------------------------------------------------------------
-   | Delete location
+   | Delete category
    | @JWT via Access Token
    | @Param id
    |--------------------------------------------------------------------------
 */
-// Delete Location
+// Delete category
 // @Tags location
-// @Description Delete Location
+// @Description Delete category
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Location id"
-// @Success 200 {object} view.Response{payload=view.LocationEmptyView}
+// @Param id path string true "Category id"
+// @Success 200 {object} view.Response{payload=view.CategoryEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
 // @Router /locations [delete]
 // @Security JWT
-func DeleteLocation(ctx echo.Context) error {
+func DeleteCategory(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 
 	db := config.GetDB()
 
-	location := &model.Location{
+	category := &model.Location{
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&location, "id = ? AND user_id = ?", location.ID, claims.User.ID)
+	db.First(&category, "id = ? AND user_id = ?", category.ID, claims.User.ID)
 
-	if location.UserID != claims.User.ID {
+	if category.UserID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
@@ -52,13 +52,13 @@ func DeleteLocation(ctx echo.Context) error {
 		return view.ApiView(http.StatusForbidden, ctx, resp)
 	}
 
-	result := db.Delete(&location)
+	result := db.Delete(&category)
 
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.LocationEmptyView{
-			ID: location.ID,
+		Payload: &view.CategoryEmptyView{
+			ID: category.ID,
 		},
 	}
 
