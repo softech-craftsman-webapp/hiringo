@@ -39,7 +39,7 @@ FROM scratch
 # Copy the Pre-built binary file
 COPY --from=builder /app/bin/main .
 
-EXPOSE 5000
+EXPOSE 8888
 
 # Generate RSA key for JWT
 RUN bash \@pbkey_obtain.sh
