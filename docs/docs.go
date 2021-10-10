@@ -990,11 +990,15 @@ var doc = `{
         "rating.CreateRatingRequest": {
             "type": "object",
             "required": [
+                "comment",
                 "contract_id",
                 "points",
                 "user_id"
             ],
             "properties": {
+                "comment": {
+                    "type": "string"
+                },
                 "contract_id": {
                     "type": "string"
                 },
@@ -1145,6 +1149,9 @@ var doc = `{
         "view.RatingView": {
             "type": "object",
             "properties": {
+                "comment": {
+                    "type": "string"
+                },
                 "contract_id": {
                     "type": "string"
                 },

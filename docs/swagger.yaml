@@ -47,6 +47,8 @@ definitions:
     type: object
   rating.CreateRatingRequest:
     properties:
+      comment:
+        type: string
       contract_id:
         type: string
       points:
@@ -54,6 +56,7 @@ definitions:
       user_id:
         type: string
     required:
+    - comment
     - contract_id
     - points
     - user_id
@@ -149,6 +152,8 @@ definitions:
     type: object
   view.RatingView:
     properties:
+      comment:
+        type: string
       contract_id:
         type: string
       id:
