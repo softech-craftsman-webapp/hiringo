@@ -23,6 +23,9 @@ type Contract struct {
 	RecruiterID    string `gorm:"type:uuid;not null" json:"recruiter_id"`
 	ProfessionalID string `gorm:"type:uuid;not null" json:"professional_id"`
 
-	// From Transaction Table
-	TransactionID string `gorm:"type:uuid;not null" json:"transaction_id"`
+	// From Job Table
+	JobID string `gorm:"type:uuid;not null" json:"job_id"`
+
+	// From Rating Table
+	Ratings []Rating `gorm:"foreignKey:ContractID" json:"rating"`
 }

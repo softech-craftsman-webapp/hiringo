@@ -11,6 +11,8 @@ definitions:
     type: object
   job.CreateJobRequest:
     properties:
+      category_id:
+        type: string
       descriptions:
         type: string
       image:

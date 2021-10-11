@@ -27,4 +27,7 @@ type Job struct {
 	LocationID string `gorm:"type:uuid;not null" json:"location_id"`
 	// From Transaction Table
 	TransactionID string `gorm:"type:uuid;not null" json:"transaction_id"`
+
+	// Contracts
+	Contracts []Contract `gorm:"foreignKey:JobID" json:"contracts"`
 }

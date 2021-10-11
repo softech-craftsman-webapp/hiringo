@@ -10,6 +10,7 @@ type JobView struct {
 	Image               string    `json:"image"`
 	ValidUntil          time.Time `json:"valid_until"`
 	IsEquipmentRequired bool      `json:"is_equipment_required"`
+	CategoryID          string    `json:"category_id"`
 }
 
 type JobEmptyView struct {

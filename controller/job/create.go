@@ -17,6 +17,7 @@ type CreateJobRequest struct {
 	Image               string    `json:"image"`
 	IsEquipmentRequired bool      `json:"is_equipment_required"`
 	ValidUntil          time.Time `json:"valid_until"`
+	CategoryID          string    `json:"category_id"`
 }
 
 /*
@@ -64,6 +65,7 @@ func CreateJob(ctx echo.Context) error {
 		Description:         req.Description,
 		IsEquipmentRequired: req.IsEquipmentRequired,
 		ValidUntil:          req.ValidUntil,
+		CategoryID:          req.CategoryID,
 	}
 
 	result := db.Create(&job)
@@ -96,6 +98,7 @@ func CreateJob(ctx echo.Context) error {
 			IsEquipmentRequired: job.IsEquipmentRequired,
 			ValidUntil:          job.ValidUntil,
 			UserID:              job.UserID,
+			CategoryID:          job.CategoryID,
 		},
 	}
 

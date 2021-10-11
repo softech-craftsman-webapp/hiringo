@@ -940,6 +940,9 @@ var doc = `{
                 "name"
             ],
             "properties": {
+                "category_id": {
+                    "type": "string"
+                },
                 "descriptions": {
                     "type": "string"
                 },
