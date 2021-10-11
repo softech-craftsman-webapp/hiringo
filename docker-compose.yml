@@ -3,6 +3,7 @@ version: "3.7"
 services:
     hiringo:
         container_name: hiringo
+        restart: always
         build: .
         volumes:
             - .:/app
@@ -10,6 +11,18 @@ services:
             - ./.env
         environment:
             - PORT=8888
+            - DB_USERNAME="dbuser"
+            - DB_PASSWORD="dbpass"               
+
+    postgis:
+        image: kartoza/postgis
+        restart: always
+        ports: 25432:5432
+        volumes: pg_data:/var/lib/postgresql
+        environment: 
+            - POSTGRES_USER="dbuser" 
+            - POSTGRES_PASS="dbpass"
+            - POSTGRES_DBNAME="postgres"
 
     nginx:
         image: nginx:alpine
