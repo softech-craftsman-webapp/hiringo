@@ -11,6 +11,7 @@ services:
             - ./.env
         environment:
             - PORT=8888
+            - HOSTNAME=hiringo
             - DB_USERNAME="dbuser"
             - DB_PASSWORD="dbpass"               
 
