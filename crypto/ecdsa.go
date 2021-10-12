@@ -2,6 +2,7 @@ package crypto
 
 import (
 	"crypto/ecdsa"
+	"os"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -12,7 +13,7 @@ import (
    |--------------------------------------------------------------------------
 */
 func EcdsaAccessPublicKey() (*ecdsa.PublicKey, error) {
-	publicKey := []byte(ReadFile("keys/public.pem"))
+	publicKey := []byte(ReadFile(os.Getenv("PEM_FILE")))
 	key, err := jwt.ParseECPublicKeyFromPEM(publicKey)
 
 	return key, err
