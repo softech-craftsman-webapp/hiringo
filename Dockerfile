@@ -7,6 +7,9 @@ ENV GO111MODULE=on
 # Set current working directory
 WORKDIR /app
 
+# Timezone Support
+RUN apk --no-cache add tzdata
+
 # Note here: To avoid downloading dependencies every time we
 # build image. Here, we are caching all the dependencies by
 # first copying go.mod and go.sum files and downloading them,
@@ -33,7 +36,10 @@ FROM scratch
 # Copy the Pre-built binary file
 COPY --from=builder /app/bin/main .
 
-EXPOSE 5000
+# Timezone settings
+ENV TZ=Europe/Budapest
+ENV ZONEINFO=/app/config/zoneinfo.zip
 
 # Run executable
+EXPOSE 5000
 CMD ["./main"]

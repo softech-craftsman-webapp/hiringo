@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	bootstrap "hiringo/bootstrap"
 
@@ -14,17 +16,26 @@ import (
 // @version 1.0
 // @description Hiringo API Service.
 
-// @host 127.0.0.1:8888
+// @host 127.0.0.1:5000
 // @BasePath /
 
 // @securityDefinitions.apiKey JWT
 // @in header
 // @name Authorization
 func main() {
+	// Load .env file
 	err := godotenv.Load(".env")
-
 	if err != nil {
 		fmt.Println(".env file is not imported, in production kindly ignore this message")
+	}
+
+	// Set timezone globally
+	if tz := os.Getenv("TZ"); tz != "" {
+		var err error
+		time.Local, err = time.LoadLocation(tz)
+		if err != nil {
+			log.Printf("error loading location '%s': %v\n", tz, err)
+		}
 	}
 
 	/*

@@ -201,7 +201,7 @@ definitions:
       user_id:
         type: string
     type: object
-host: 127.0.0.1:8888
+host: 127.0.0.1:5000
 info:
   contact: {}
   description: Hiringo API Service.
