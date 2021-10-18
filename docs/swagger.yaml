@@ -201,9 +201,12 @@ definitions:
       user_id:
         type: string
     type: object
-host: https://main-api.hiringo.tech
+host: main-api.hiringo.tech
 info:
-  contact: {}
+  contact:
+    email: admin@hiringo.tech
+    name: Emin Muhammadi
+    url: https://github.com/softech-craftsman-webapp/hiringo
   description: Hiringo API Service.
   title: Hiringo API
   version: "1.0"

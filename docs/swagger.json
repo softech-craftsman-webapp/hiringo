@@ -3,10 +3,14 @@
     "info": {
         "description": "Hiringo API Service.",
         "title": "Hiringo API",
-        "contact": {},
+        "contact": {
+            "name": "Emin Muhammadi",
+            "url": "https://github.com/softech-craftsman-webapp/hiringo",
+            "email": "admin@hiringo.tech"
+        },
         "version": "1.0"
     },
-    "host": "https://main-api.hiringo.tech",
+    "host": "main-api.hiringo.tech",
     "basePath": "/",
     "paths": {
         "/categories/new": {
