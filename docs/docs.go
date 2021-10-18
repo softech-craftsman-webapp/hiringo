@@ -42,7 +42,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "category"
                 ],
                 "responses": {
                     "200": {
@@ -430,7 +430,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "location"
                 ],
                 "responses": {
                     "200": {
@@ -740,7 +740,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "transaction"
                 ],
                 "responses": {
                     "200": {

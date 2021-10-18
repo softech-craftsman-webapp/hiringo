@@ -17,7 +17,7 @@ import (
    |--------------------------------------------------------------------------
 */
 // Get user details
-// @Tags users
+// @Tags location
 // @Description Get user details
 // @Accept  json
 // @Produce  json

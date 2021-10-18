@@ -314,7 +314,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - users
+      - category
   /categories/new:
     post:
       consumes:
@@ -547,7 +547,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - users
+      - location
   /locations/new:
     post:
       consumes:
@@ -686,7 +686,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - users
+      - transaction
   /transactions/new:
     get:
       consumes:

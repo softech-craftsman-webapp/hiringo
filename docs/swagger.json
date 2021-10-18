@@ -28,7 +28,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "category"
                 ],
                 "responses": {
                     "200": {
@@ -416,7 +416,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "location"
                 ],
                 "responses": {
                     "200": {
@@ -726,7 +726,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "transaction"
                 ],
                 "responses": {
                     "200": {
