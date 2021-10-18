@@ -33,14 +33,17 @@ func InitRoutes(app *echo.Echo) {
 	app.GET("/openapi", controller.SwaggerRedirect)
 
 	// Location
+	access_route.GET("/locations/my", location_controller.GetMyLocations)
 	access_route.POST("/locations/new", location_controller.CreateLocation)
 	access_route.DELETE("/locations/:id", location_controller.DeleteLocation)
 
 	// Category
+	access_route.GET("/categories/all", category_controller.GetAllCategories)
 	access_route.POST("/categories/new", category_controller.CreateCategory)
 	access_route.DELETE("/categories/:id", category_controller.DeleteCategory)
 
 	// Transaction
+	access_route.POST("/transactions/my", transaction_controller.GetMyTransactions)
 	access_route.POST("/transactions/new", transaction_controller.CreateTransaction)
 
 	// Rating

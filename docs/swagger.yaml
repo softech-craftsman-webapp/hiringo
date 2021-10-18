@@ -37,16 +37,6 @@ definitions:
     - latitude
     - longitude
     type: object
-  location.CreateTransactionRequest:
-    properties:
-      amount:
-        type: number
-      currency:
-        type: string
-    required:
-    - amount
-    - currency
-    type: object
   rating.CreateRatingRequest:
     properties:
       comment:
@@ -63,6 +53,16 @@ definitions:
     - points
     - user_id
     type: object
+  transaction.CreateTransactionRequest:
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+    required:
+    - amount
+    - currency
+    type: object
   userDetail.CreateUserDetailRequest:
     properties:
       bio:
@@ -76,6 +76,11 @@ definitions:
     required:
     - email
     - telephone
+    type: object
+  userDetail.RevealUserDetailRequest:
+    properties:
+      contract_id:
+        type: string
     type: object
   userDetail.UpdateUserDetailRequest:
     properties:
@@ -150,6 +155,15 @@ definitions:
       suburb:
         type: string
       user_id:
+        type: string
+    type: object
+  view.PublicCategoryView:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
         type: string
     type: object
   view.RatingView:
@@ -258,6 +272,49 @@ paths:
       - JWT: []
       tags:
       - category
+  /categories/all:
+    get:
+      consumes:
+      - application/json
+      description: Get user details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.PublicCategoryView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - users
   /categories/new:
     post:
       consumes:
@@ -448,6 +505,49 @@ paths:
       - JWT: []
       tags:
       - location
+  /locations/my:
+    get:
+      consumes:
+      - application/json
+      description: Get user details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.LocationView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - users
   /locations/new:
     post:
       consumes:
@@ -544,8 +644,51 @@ paths:
       - JWT: []
       tags:
       - rating
+  /transactions/my:
+    get:
+      consumes:
+      - application/json
+      description: Get user details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.TransactionView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - users
   /transactions/new:
-    post:
+    get:
       consumes:
       - application/json
       description: Create Transaction
@@ -555,7 +698,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/location.CreateTransactionRequest'
+          $ref: '#/definitions/transaction.CreateTransactionRequest'
       produces:
       - application/json
       responses:
@@ -661,7 +804,7 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/userDetail.CreateUserDetailRequest'
+          $ref: '#/definitions/userDetail.RevealUserDetailRequest'
       produces:
       - application/json
       responses:

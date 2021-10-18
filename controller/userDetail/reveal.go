@@ -28,7 +28,7 @@ type RevealUserDetailRequest struct {
 // @Accept  json
 // @Produce  json
 // @Param id path string true "User Detail id"
-// @Param user body CreateUserDetailRequest true "Contract details"
+// @Param user body RevealUserDetailRequest true "Contract details"
 // @Success 200 {object} view.Response{payload=view.UserDetailView}
 // @Failure 400,401,403,404,500 {object} view.Response
 // @Failure default {object} view.Response

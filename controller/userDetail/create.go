@@ -55,6 +55,22 @@ func CreateUserDetail(ctx echo.Context) error {
 		})
 	}
 
+	/*
+	   |--------------------------------------------------------------------------
+	   | Check user detail exist
+	   |--------------------------------------------------------------------------
+	*/
+	if err := db.Where("user_id = ?", claims.User.ID).First(&model.UserDetail{}).Error; err == nil {
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
+			Success: false,
+			Message: "User detail already exist",
+			Payload: nil,
+		})
+	}
+
 	userDetail := &model.UserDetail{
 		Email:      req.Email,
 		Telephone:  req.Telephone,
@@ -64,6 +80,7 @@ func CreateUserDetail(ctx echo.Context) error {
 	}
 
 	result := db.Create(&userDetail)
+
 	/*
 	   |--------------------------------------------------------------------------
 	   | DB relation error
