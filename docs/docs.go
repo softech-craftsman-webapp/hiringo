@@ -23,7 +23,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/categories": {
+        "/categories/new": {
             "post": {
                 "security": [
                     {
@@ -181,7 +181,7 @@ var doc = `{
                 }
             }
         },
-        "/jobs": {
+        "/jobs/new": {
             "post": {
                 "security": [
                     {
@@ -339,7 +339,7 @@ var doc = `{
                 }
             }
         },
-        "/locations": {
+        "/locations/new": {
             "post": {
                 "security": [
                     {
@@ -497,7 +497,7 @@ var doc = `{
                 }
             }
         },
-        "/ratings": {
+        "/ratings/new": {
             "post": {
                 "security": [
                     {
@@ -577,7 +577,7 @@ var doc = `{
                 }
             }
         },
-        "/transactions": {
+        "/transactions/new": {
             "post": {
                 "security": [
                     {
@@ -657,7 +657,7 @@ var doc = `{
                 }
             }
         },
-        "/user-details": {
+        "/user-details/new": {
             "post": {
                 "security": [
                     {
@@ -1246,7 +1246,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "127.0.0.1:5000",
+	Host:        "https://main-api.hiringo.tech",
 	BasePath:    "/",
 	Schemes:     []string{},
 	Title:       "Hiringo API",

@@ -16,7 +16,7 @@ import (
 // @version 1.0
 // @description Hiringo API Service.
 
-// @host 127.0.0.1:5000
+// @host https://main-api.hiringo.tech
 // @BasePath /
 
 // @securityDefinitions.apiKey JWT

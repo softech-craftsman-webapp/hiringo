@@ -31,7 +31,7 @@ type CreateLocationRequest struct {
 // @Success 200 {object} view.Response{payload=view.LocationView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /locations [post]
+// @Router /locations/new [post]
 // @Security JWT
 func CreateLocation(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

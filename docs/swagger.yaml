@@ -201,61 +201,13 @@ definitions:
       user_id:
         type: string
     type: object
-host: 127.0.0.1:5000
+host: https://main-api.hiringo.tech
 info:
   contact: {}
   description: Hiringo API Service.
   title: Hiringo API
   version: "1.0"
 paths:
-  /categories:
-    post:
-      consumes:
-      - application/json
-      description: Create Category
-      parameters:
-      - description: Category for Job
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/category.CreateCategoryRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  $ref: '#/definitions/view.CategoryView'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - category
   /categories/{id}:
     delete:
       consumes:
@@ -303,18 +255,18 @@ paths:
       - JWT: []
       tags:
       - category
-  /jobs:
+  /categories/new:
     post:
       consumes:
       - application/json
-      description: Create Job
+      description: Create Category
       parameters:
-      - description: Job related informations
+      - description: Category for Job
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/job.CreateJobRequest'
+          $ref: '#/definitions/category.CreateCategoryRequest'
       produces:
       - application/json
       responses:
@@ -325,7 +277,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.RatingView'
+                  $ref: '#/definitions/view.CategoryView'
               type: object
         "400":
           description: Bad Request
@@ -350,7 +302,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - job
+      - category
   /jobs/{id}:
     delete:
       consumes:
@@ -398,18 +350,18 @@ paths:
       - JWT: []
       tags:
       - job
-  /locations:
+  /jobs/new:
     post:
       consumes:
       - application/json
-      description: Create Location
+      description: Create Job
       parameters:
-      - description: Geolocation coordinates (longitude and latitude)
+      - description: Job related informations
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/location.CreateLocationRequest'
+          $ref: '#/definitions/job.CreateJobRequest'
       produces:
       - application/json
       responses:
@@ -420,7 +372,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.LocationView'
+                  $ref: '#/definitions/view.RatingView'
               type: object
         "400":
           description: Bad Request
@@ -445,7 +397,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - location
+      - job
   /locations/{id}:
     delete:
       consumes:
@@ -493,7 +445,55 @@ paths:
       - JWT: []
       tags:
       - location
-  /ratings:
+  /locations/new:
+    post:
+      consumes:
+      - application/json
+      description: Create Location
+      parameters:
+      - description: Geolocation coordinates (longitude and latitude)
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/location.CreateLocationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.LocationView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - location
+  /ratings/new:
     post:
       consumes:
       - application/json
@@ -541,7 +541,7 @@ paths:
       - JWT: []
       tags:
       - rating
-  /transactions:
+  /transactions/new:
     post:
       consumes:
       - application/json
@@ -589,54 +589,6 @@ paths:
       - JWT: []
       tags:
       - transaction
-  /user-details:
-    post:
-      consumes:
-      - application/json
-      description: Create Category
-      parameters:
-      - description: User details for user
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/userDetail.CreateUserDetailRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  $ref: '#/definitions/view.UserDetailView'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - user-detail
   /user-details/{id}:
     put:
       consumes:
@@ -733,6 +685,54 @@ paths:
             $ref: '#/definitions/view.Response'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - user-detail
+  /user-details/new:
+    post:
+      consumes:
+      - application/json
+      description: Create Category
+      parameters:
+      - description: User details for user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/userDetail.CreateUserDetailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.UserDetailView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
           schema:
             $ref: '#/definitions/view.Response'
         "500":

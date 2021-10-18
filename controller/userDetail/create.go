@@ -32,7 +32,7 @@ type CreateUserDetailRequest struct {
 // @Success 200 {object} view.Response{payload=view.UserDetailView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details [post]
+// @Router /user-details/new [post]
 // @Security JWT
 func CreateUserDetail(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

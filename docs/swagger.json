@@ -6,10 +6,10 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "127.0.0.1:5000",
+    "host": "https://main-api.hiringo.tech",
     "basePath": "/",
     "paths": {
-        "/categories": {
+        "/categories/new": {
             "post": {
                 "security": [
                     {
@@ -167,7 +167,7 @@
                 }
             }
         },
-        "/jobs": {
+        "/jobs/new": {
             "post": {
                 "security": [
                     {
@@ -325,7 +325,7 @@
                 }
             }
         },
-        "/locations": {
+        "/locations/new": {
             "post": {
                 "security": [
                     {
@@ -483,7 +483,7 @@
                 }
             }
         },
-        "/ratings": {
+        "/ratings/new": {
             "post": {
                 "security": [
                     {
@@ -563,7 +563,7 @@
                 }
             }
         },
-        "/transactions": {
+        "/transactions/new": {
             "post": {
                 "security": [
                     {
@@ -643,7 +643,7 @@
                 }
             }
         },
-        "/user-details": {
+        "/user-details/new": {
             "post": {
                 "security": [
                     {

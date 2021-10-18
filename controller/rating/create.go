@@ -32,7 +32,7 @@ type CreateRatingRequest struct {
 // @Success 200 {object} view.Response{payload=view.RatingView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /ratings [post]
+// @Router /ratings/new [post]
 // @Security JWT
 func CreateRating(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

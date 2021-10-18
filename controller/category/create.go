@@ -30,7 +30,7 @@ type CreateCategoryRequest struct {
 // @Success 200 {object} view.Response{payload=view.CategoryView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /categories [post]
+// @Router /categories/new [post]
 // @Security JWT
 func CreateCategory(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
