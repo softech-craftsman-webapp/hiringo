@@ -30,7 +30,7 @@ type CreateTransactionRequest struct {
 // @Success 200 {object} view.Response{payload=view.TransactionView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /transactions/new [get]
+// @Router /transactions/new [post]
 // @Security JWT
 func CreateTransaction(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

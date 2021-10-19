@@ -19,12 +19,32 @@ definitions:
         type: string
       is_equipment_required:
         type: boolean
+      location_id:
+        type: string
       name:
+        type: string
+      transaction_id:
         type: string
       valid_until:
         type: string
     required:
+    - category_id
     - descriptions
+    - location_id
+    - name
+    - transaction_id
+    type: object
+  job.SeachJobRequest:
+    properties:
+      category_id:
+        type: string
+      description:
+        type: string
+      is_equipment_required:
+        type: boolean
+      name:
+        type: string
+    required:
     - name
     type: object
   location.CreateLocationRequest:
@@ -115,6 +135,29 @@ definitions:
   view.JobEmptyView:
     properties:
       id:
+        type: string
+    type: object
+  view.JobView:
+    properties:
+      category_id:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      is_equipment_required:
+        type: boolean
+      location_id:
+        type: string
+      name:
+        type: string
+      transaction_id:
+        type: string
+      user_id:
+        type: string
+      valid_until:
         type: string
     type: object
   view.LocationEmptyView:
@@ -215,6 +258,15 @@ definitions:
       user_id:
         type: string
     type: object
+  view.UserRatingDetailView:
+    properties:
+      id:
+        type: string
+      rating:
+        type: number
+      total_rates:
+        type: integer
+    type: object
 host: main-api.hiringo.tech
 info:
   contact:
@@ -272,6 +324,46 @@ paths:
       - JWT: []
       tags:
       - category
+    get:
+      consumes:
+      - application/json
+      description: Get transaction Details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.TransactionView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - transaction
   /categories/all:
     get:
       consumes:
@@ -410,6 +502,46 @@ paths:
       - JWT: []
       tags:
       - job
+    get:
+      consumes:
+      - application/json
+      description: Get Job Details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.JobView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - job
   /jobs/new:
     post:
       consumes:
@@ -432,7 +564,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.RatingView'
+                  $ref: '#/definitions/view.JobView'
               type: object
         "400":
           description: Bad Request
@@ -444,6 +576,56 @@ paths:
             $ref: '#/definitions/view.Response'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - job
+  /jobs/search:
+    post:
+      consumes:
+      - application/json
+      description: Search jobs
+      parameters:
+      - description: Job related informations
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/job.SeachJobRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.JobView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/view.Response'
         "500":
@@ -491,6 +673,46 @@ paths:
             $ref: '#/definitions/view.Response'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - location
+    get:
+      consumes:
+      - application/json
+      description: Get location Details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.LocationView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/view.Response'
         "500":
@@ -596,6 +818,47 @@ paths:
       - JWT: []
       tags:
       - location
+  /ratings/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get rating Details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.RatingView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - rating
   /ratings/new:
     post:
       consumes:
@@ -688,7 +951,7 @@ paths:
       tags:
       - transaction
   /transactions/new:
-    get:
+    post:
       consumes:
       - application/json
       description: Create Transaction
@@ -774,6 +1037,47 @@ paths:
             $ref: '#/definitions/view.Response'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - user-detail
+  /user-details/{id}/rating:
+    get:
+      consumes:
+      - application/json
+      description: Get user average rating
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.UserRatingDetailView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/view.Response'
         "500":

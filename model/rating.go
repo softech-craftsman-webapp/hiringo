@@ -18,8 +18,8 @@ type Rating struct {
 	DeletedAt     gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 
 	// Handled by Auth Service
-	UserID string `gorm:"type:uuid" json:"user_id"`
+	UserID string `gorm:"type:uuid;not null" json:"user_id"`
 
 	// From Contract Table
-	ContractID string `gorm:"type:uuid" json:"contract_id"`
+	ContractID string `gorm:"type:uuid;not null" json:"contract_id"`
 }

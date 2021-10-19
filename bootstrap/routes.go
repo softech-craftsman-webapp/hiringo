@@ -36,25 +36,32 @@ func InitRoutes(app *echo.Echo) {
 	access_route.GET("/locations/my", location_controller.GetMyLocations)
 	access_route.POST("/locations/new", location_controller.CreateLocation)
 	access_route.DELETE("/locations/:id", location_controller.DeleteLocation)
+	access_route.GET("/locations/:id", location_controller.GetLocationDetail)
 
 	// Category
 	access_route.GET("/categories/all", category_controller.GetAllCategories)
 	access_route.POST("/categories/new", category_controller.CreateCategory)
 	access_route.DELETE("/categories/:id", category_controller.DeleteCategory)
+	access_route.GET("/categories/:id", category_controller.GetCategoryDetail)
 
 	// Transaction
 	access_route.POST("/transactions/my", transaction_controller.GetMyTransactions)
 	access_route.POST("/transactions/new", transaction_controller.CreateTransaction)
+	access_route.GET("/transactions/:id", transaction_controller.GetTransactionDetail)
 
 	// Rating
 	access_route.POST("/ratings/new", rating_controller.CreateRating)
+	access_route.GET("/ratings/:id", rating_controller.GetRatingDetail)
 
 	// Job
 	access_route.POST("/jobs/new", job_controller.CreateJob)
 	access_route.DELETE("/jobs/:id", job_controller.DeleteJob)
+	access_route.POST("/jobs/search", job_controller.SearchJobs)
+	access_route.GET("/jobs/:id", job_controller.GetJobDetail)
 
 	// User Details
 	access_route.POST("/user-detail/new", user_detail_controller.CreateUserDetail)
+	access_route.GET("/user-detail/:id/rating", user_detail_controller.GetUserRating)
 	access_route.PUT("/user-details/:id", user_detail_controller.UpdateUserDetail)
 	access_route.POST("/user-details/:id/reveal", user_detail_controller.RevealUserDetail)
 }

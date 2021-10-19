@@ -12,12 +12,14 @@ import (
 )
 
 type CreateJobRequest struct {
-	Name                string    `json:"name" validate:"required"`
-	Description         string    `json:"descriptions" validate:"required"`
-	Image               string    `json:"image"`
-	IsEquipmentRequired bool      `json:"is_equipment_required"`
-	ValidUntil          time.Time `json:"valid_until"`
-	CategoryID          string    `json:"category_id"`
+	Name                string `json:"name" validate:"required"`
+	Description         string `json:"descriptions" validate:"required"`
+	Image               string `json:"image"`
+	IsEquipmentRequired bool   `json:"is_equipment_required"`
+	ValidUntil          string `json:"valid_until"`
+	CategoryID          string `json:"category_id" validate:"required"`
+	LocationID          string `json:"location_id" validate:"required"`
+	TransactionID       string `json:"transaction_id" validate:"required"`
 }
 
 /*
@@ -32,7 +34,7 @@ type CreateJobRequest struct {
 // @Accept  json
 // @Produce  json
 // @Param user body CreateJobRequest true "Job related informations"
-// @Success 200 {object} view.Response{payload=view.RatingView}
+// @Success 200 {object} view.Response{payload=view.JobView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
 // @Router /jobs/new [post]
@@ -58,17 +60,32 @@ func CreateJob(ctx echo.Context) error {
 		})
 	}
 
+	// Time Validation
+	validUntil, err := time.Parse("2006-01-02 15:04", req.ValidUntil)
+	if err != nil {
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
+			Success: false,
+			Message: "Time validation failed, example 2006-01-02 15:04",
+			Payload: nil,
+		})
+	}
+
 	job := &model.Job{
 		UserID:              claims.User.ID,
 		Name:                req.Name,
 		Image:               req.Image,
 		Description:         req.Description,
 		IsEquipmentRequired: req.IsEquipmentRequired,
-		ValidUntil:          req.ValidUntil,
+		ValidUntil:          validUntil,
 		CategoryID:          req.CategoryID,
+		LocationID:          req.LocationID,
+		TransactionID:       req.TransactionID,
 	}
 
 	result := db.Create(&job)
+
 	/*
 	   |--------------------------------------------------------------------------
 	   | DB relation error
@@ -99,6 +116,8 @@ func CreateJob(ctx echo.Context) error {
 			ValidUntil:          job.ValidUntil,
 			UserID:              job.UserID,
 			CategoryID:          job.CategoryID,
+			LocationID:          job.LocationID,
+			TransactionID:       job.TransactionID,
 		},
 	}
 

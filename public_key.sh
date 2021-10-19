@@ -6,4 +6,4 @@
 mkdir -p keys
 
 # Get the public key of Auth Service
-curl http://api.hiringo.tech/auth/public-key -o keys/public.pem
+curl https://api.hiringo.tech/auth/public-key -o keys/public.pem

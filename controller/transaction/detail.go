@@ -6,55 +6,54 @@ import (
 	view "hiringo/view"
 	"net/http"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
 /*
    |--------------------------------------------------------------------------
-   | Get transactions
+   | Get Transaction Detail
    | @JWT via Acess Token
    |--------------------------------------------------------------------------
 */
-// Get user details
+// Get transaction Details
 // @Tags transaction
-// @Description Get user details
+// @Description Get transaction Details
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} view.Response{payload=[]view.TransactionView}
+// @Success 200 {object} view.Response{payload=view.TransactionView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /transactions/my [get]
+// @Router /categories/{id} [get]
 // @Security JWT
-func GetMyTransactions(ctx echo.Context) error {
-	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
+func GetTransactionDetail(ctx echo.Context) error {
 	db := config.GetDB()
 
-	transactions := []model.Transaction{}
-	result := db.Where("user_id = ?", claims.User.ID).Find(&transactions)
+	transaction := model.Transaction{
+		ID: ctx.Param("id"),
+	}
+	result := db.First(&transaction)
 
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: "Transaction not found",
 			Payload: nil,
 		}
 		// close db
 		config.CloseDB(db).Close()
 
-		return view.ApiView(http.StatusInternalServerError, ctx, resp)
-	}
-
-	// TODO: It can be optimized
-	var formatted_transactions []view.TransactionView
-	for _, transaction := range transactions {
-		formatted_transactions = append(formatted_transactions, view.TransactionModelToView(transaction))
+		return view.ApiView(http.StatusNotFound, ctx, resp)
 	}
 
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: formatted_transactions,
+		Payload: &view.TransactionView{
+			ID:       transaction.ID,
+			UserID:   transaction.UserID,
+			Amount:   transaction.Amount,
+			Currency: transaction.Currency,
+		},
 	}
 
 	// close db

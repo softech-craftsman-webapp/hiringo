@@ -21,5 +21,5 @@ type UserDetail struct {
 	UserID string `gorm:"type:uuid;not null" json:"user_id"`
 
 	// Location from table
-	LocationID string `gorm:"type:uuid" json:"location_id"`
+	LocationID string `gorm:"type:uuid;not null" json:"location_id"`
 }
