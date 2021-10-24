@@ -121,12 +121,13 @@ func RevealUserDetail(ctx echo.Context) error {
 		Success: true,
 		Message: "Success",
 		Payload: &view.UserDetailView{
-			ID:         userDetail.ID,
-			UserID:     userDetail.UserID,
-			Email:      userDetail.Email,
-			Telephone:  userDetail.Telephone,
-			Bio:        userDetail.Bio,
-			LocationID: userDetail.LocationID,
+			ID:        userDetail.ID,
+			UserID:    userDetail.UserID,
+			Email:     userDetail.Email,
+			Telephone: userDetail.Telephone,
+			Bio:       userDetail.Bio,
+			Latitude:  userDetail.Latitude,
+			Longitude: userDetail.Longitude,
 		},
 	}
 

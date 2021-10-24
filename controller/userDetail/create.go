@@ -11,10 +11,11 @@ import (
 )
 
 type CreateUserDetailRequest struct {
-	Email      string `json:"email" validate:"required,email"`
-	Telephone  string `json:"telephone" validate:"required,numeric"`
-	Bio        string `json:"bio"`
-	LocationID string `json:"location_id"`
+	Email     string  `json:"email" validate:"required,email"`
+	Telephone string  `json:"telephone" validate:"required,numeric"`
+	Bio       string  `json:"bio" validate:"required"`
+	Latitude  float64 `json:"latitude" validate:"required,numeric"`
+	Longitude float64 `json:"longitude" validate:"required,numeric"`
 }
 
 /*
@@ -72,11 +73,12 @@ func CreateUserDetail(ctx echo.Context) error {
 	}
 
 	userDetail := &model.UserDetail{
-		Email:      req.Email,
-		Telephone:  req.Telephone,
-		Bio:        req.Bio,
-		LocationID: req.LocationID,
-		UserID:     claims.User.ID,
+		Email:     req.Email,
+		Telephone: req.Telephone,
+		Bio:       req.Bio,
+		UserID:    claims.User.ID,
+		Latitude:  req.Latitude,
+		Longitude: req.Longitude,
 	}
 
 	result := db.Create(&userDetail)
@@ -103,12 +105,13 @@ func CreateUserDetail(ctx echo.Context) error {
 		Success: true,
 		Message: "Success",
 		Payload: &view.UserDetailView{
-			ID:         userDetail.ID,
-			Email:      userDetail.Email,
-			Telephone:  userDetail.Telephone,
-			Bio:        userDetail.Bio,
-			LocationID: userDetail.LocationID,
-			UserID:     userDetail.UserID,
+			ID:        userDetail.ID,
+			Email:     userDetail.Email,
+			Telephone: userDetail.Telephone,
+			Bio:       userDetail.Bio,
+			UserID:    userDetail.UserID,
+			Latitude:  userDetail.Latitude,
+			Longitude: userDetail.Longitude,
 		},
 	}
 

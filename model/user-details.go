@@ -20,6 +20,7 @@ type UserDetail struct {
 	// Handled by Auth Service
 	UserID string `gorm:"type:uuid;not null" json:"user_id"`
 
-	// Location from table
-	LocationID string `gorm:"type:uuid;not null" json:"location_id"`
+	// Location
+	Latitude  float64 `gorm:"type:float;not null" json:"latitude"`
+	Longitude float64 `gorm:"type:float;not null" json:"longitude"`
 }

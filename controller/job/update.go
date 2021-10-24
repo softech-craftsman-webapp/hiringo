@@ -1,47 +1,49 @@
-package userDetail
+package job
 
 import (
 	config "hiringo/config"
 	model "hiringo/model"
 	view "hiringo/view"
 	"net/http"
+	"time"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
-type UpdateUserDetailRequest struct {
-	Email     string  `json:"email" validate:"required,email"`
-	Telephone string  `json:"telephone" validate:"required,numeric"`
-	Bio       string  `json:"bio" validate:"required"`
-	Latitude  float64 `json:"latitude" validate:"required,numeric"`
-	Longitude float64 `json:"longitude" validate:"required,numeric"`
+type UpdateJobRequest struct {
+	Name                string  `json:"name" validate:"required"`
+	Description         string  `json:"descriptions" validate:"required"`
+	IsEquipmentRequired bool    `json:"is_equipment_required"`
+	ValidUntil          string  `json:"valid_until" validate:"required"`
+	CategoryID          string  `json:"category_id" validate:"required"`
+	TransactionID       string  `json:"transaction_id" validate:"required"`
+	Latitude            float64 `json:"latitude" validate:"required,numeric"`
+	Longitude           float64 `json:"longitude" validate:"required,numeric"`
 }
 
 /*
    |--------------------------------------------------------------------------
-   | Update user details
-   | @JWT via Acess Token
-   | @Param id
+   | Create Job
+   | @JWT via Access Token
    |--------------------------------------------------------------------------
 */
-// Update user details
-// @Tags user-detail
-// @Description Update user details
+// Create Job
+// @Tags job
+// @Description Create Job
 // @Accept  json
 // @Produce  json
-// @Param id path string true "User Detail id"
-// @Param user body UpdateUserDetailRequest true "User details"
-// @Success 200 {object} view.Response{payload=view.UserDetailView}
+// @Param user body UpdateJobRequest true "Job related informations"
+// @Success 200 {object} view.Response{payload=view.JobView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details/{id} [put]
+// @Router /jobs/{id} [put]
 // @Security JWT
-func UpdateUserDetail(ctx echo.Context) error {
+func UpdateJob(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 
 	db := config.GetDB()
-	req := new(UpdateUserDetailRequest)
+	req := new(UpdateJobRequest)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -51,25 +53,37 @@ func UpdateUserDetail(ctx echo.Context) error {
 	if err := config.BindAndValidate(ctx, req); err != nil {
 		config.CloseDB(db).Close()
 
-		return ctx.JSON(http.StatusBadRequest, &view.Response{
+		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
 			Success: false,
-			Message: config.GetMessageFromError(err.Error()),
+			Message: "Bad request",
 			Payload: nil,
 		})
 	}
 
-	userDetail := &model.UserDetail{
+	// Time Validation
+	validUntil, err := time.Parse("2006-01-02 15:04", req.ValidUntil)
+	if err != nil {
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
+			Success: false,
+			Message: "Time validation failed, example 2006-01-02 15:04",
+			Payload: nil,
+		})
+	}
+
+	job := &model.Job{
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&userDetail, "id = ?", claims.User.ID)
+	db.First(&job, "id = ?", claims.User.ID)
 
 	/*
 	   |--------------------------------------------------------------------------
 	   | Check if user's id the same as the logged in user
 	   |--------------------------------------------------------------------------
 	*/
-	if userDetail.UserID != claims.User.ID {
+	if job.UserID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
@@ -87,19 +101,22 @@ func UpdateUserDetail(ctx echo.Context) error {
 	   | Check rquired fields
 	   |--------------------------------------------------------------------------
 	*/
-	result := db.Model(&userDetail).Updates(model.UserDetail{
-		Email:     req.Email,
-		Telephone: req.Telephone,
-		Bio:       req.Bio,
-		Latitude:  req.Latitude,
-		Longitude: req.Longitude,
+	result := db.Model(&job).Updates(model.Job{
+		Name:                req.Name,
+		Description:         req.Description,
+		IsEquipmentRequired: req.IsEquipmentRequired,
+		ValidUntil:          validUntil,
+		CategoryID:          req.CategoryID,
+		TransactionID:       req.TransactionID,
+		Latitude:            req.Latitude,
+		Longitude:           req.Longitude,
 	})
 
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.UserDetailEmptyView{
-			ID: userDetail.ID,
+		Payload: &view.JobEmptyView{
+			ID: job.ID,
 		},
 	}
 

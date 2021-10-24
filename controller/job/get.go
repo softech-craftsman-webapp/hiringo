@@ -58,7 +58,8 @@ func GetJobDetail(ctx echo.Context) error {
 			IsEquipmentRequired: job.IsEquipmentRequired,
 			CategoryID:          job.CategoryID,
 			TransactionID:       job.TransactionID,
-			LocationID:          job.LocationID,
+			Longitude:           job.Longitude,
+			Latitude:            job.Latitude,
 		},
 	}
 

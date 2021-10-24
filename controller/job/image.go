@@ -1,4 +1,4 @@
-package userDetail
+package job
 
 import (
 	config "hiringo/config"
@@ -10,38 +10,32 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type UpdateUserDetailRequest struct {
-	Email     string  `json:"email" validate:"required,email"`
-	Telephone string  `json:"telephone" validate:"required,numeric"`
-	Bio       string  `json:"bio" validate:"required"`
-	Latitude  float64 `json:"latitude" validate:"required,numeric"`
-	Longitude float64 `json:"longitude" validate:"required,numeric"`
+type UpdateJobImageRequest struct {
+	Image string `json:"image" validate:"required"`
 }
 
 /*
    |--------------------------------------------------------------------------
-   | Update user details
-   | @JWT via Acess Token
-   | @Param id
+   | Create Job
+   | @JWT via Access Token
    |--------------------------------------------------------------------------
 */
-// Update user details
-// @Tags user-detail
-// @Description Update user details
+// Create Job
+// @Tags job
+// @Description Create Job
 // @Accept  json
 // @Produce  json
-// @Param id path string true "User Detail id"
-// @Param user body UpdateUserDetailRequest true "User details"
-// @Success 200 {object} view.Response{payload=view.UserDetailView}
+// @Param user body UpdateJobImageRequest true "Job related informations"
+// @Success 200 {object} view.Response{payload=view.JobView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details/{id} [put]
+// @Router /jobs/{id}/image [put]
 // @Security JWT
-func UpdateUserDetail(ctx echo.Context) error {
+func AddOrUpdateJobImage(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 
 	db := config.GetDB()
-	req := new(UpdateUserDetailRequest)
+	req := new(UpdateJobImageRequest)
 
 	/*
 	   |--------------------------------------------------------------------------
@@ -51,25 +45,25 @@ func UpdateUserDetail(ctx echo.Context) error {
 	if err := config.BindAndValidate(ctx, req); err != nil {
 		config.CloseDB(db).Close()
 
-		return ctx.JSON(http.StatusBadRequest, &view.Response{
+		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
 			Success: false,
-			Message: config.GetMessageFromError(err.Error()),
+			Message: "Bad request",
 			Payload: nil,
 		})
 	}
 
-	userDetail := &model.UserDetail{
+	job := &model.Job{
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&userDetail, "id = ?", claims.User.ID)
+	db.First(&job, "id = ?", claims.User.ID)
 
 	/*
 	   |--------------------------------------------------------------------------
 	   | Check if user's id the same as the logged in user
 	   |--------------------------------------------------------------------------
 	*/
-	if userDetail.UserID != claims.User.ID {
+	if job.UserID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
@@ -87,19 +81,15 @@ func UpdateUserDetail(ctx echo.Context) error {
 	   | Check rquired fields
 	   |--------------------------------------------------------------------------
 	*/
-	result := db.Model(&userDetail).Updates(model.UserDetail{
-		Email:     req.Email,
-		Telephone: req.Telephone,
-		Bio:       req.Bio,
-		Latitude:  req.Latitude,
-		Longitude: req.Longitude,
+	result := db.Model(&job).Updates(model.Job{
+		Image: req.Image,
 	})
 
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.UserDetailEmptyView{
-			ID: userDetail.ID,
+		Payload: &view.JobEmptyView{
+			ID: job.ID,
 		},
 	}
 

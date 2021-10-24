@@ -555,6 +555,84 @@ var doc = `{
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create Job",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "job"
+                ],
+                "parameters": [
+                    {
+                        "description": "Job related informations",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/job.UpdateJobRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/view.JobView"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -632,14 +710,14 @@ var doc = `{
                 }
             }
         },
-        "/locations/my": {
-            "get": {
+        "/jobs/{id}/image": {
+            "put": {
                 "security": [
                     {
                         "JWT": []
                     }
                 ],
-                "description": "Get user details",
+                "description": "Create Job",
                 "consumes": [
                     "application/json"
                 ],
@@ -647,7 +725,18 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "location"
+                    "job"
+                ],
+                "parameters": [
+                    {
+                        "description": "Job related informations",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/job.UpdateJobImageRequest"
+                        }
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -661,10 +750,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "payload": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/view.LocationView"
-                                            }
+                                            "$ref": "#/definitions/view.JobView"
                                         }
                                     }
                                 }
@@ -683,8 +769,8 @@ var doc = `{
                             "$ref": "#/definitions/view.Response"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/view.Response"
                         }
@@ -704,7 +790,7 @@ var doc = `{
                 }
             }
         },
-        "/locations/new": {
+        "/locations/search": {
             "post": {
                 "security": [
                     {
@@ -745,151 +831,6 @@ var doc = `{
                                     "properties": {
                                         "payload": {
                                             "$ref": "#/definitions/view.LocationView"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/locations/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Get location Details",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "location"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/view.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "payload": {
-                                            "$ref": "#/definitions/view.LocationView"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    },
-                    "default": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/view.Response"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "description": "Delete Location",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "location"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Location id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/view.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "payload": {
-                                            "$ref": "#/definitions/view.LocationEmptyView"
                                         }
                                     }
                                 }
@@ -1211,6 +1152,81 @@ var doc = `{
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user-details/my": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get user's details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user-detail"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/view.UserDetailView"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/view.Response"
                         }
@@ -1580,9 +1596,11 @@ var doc = `{
             "required": [
                 "category_id",
                 "descriptions",
-                "location_id",
+                "latitude",
+                "longitude",
                 "name",
-                "transaction_id"
+                "transaction_id",
+                "valid_until"
             ],
             "properties": {
                 "category_id": {
@@ -1591,14 +1609,14 @@ var doc = `{
                 "descriptions": {
                     "type": "string"
                 },
-                "image": {
-                    "type": "string"
-                },
                 "is_equipment_required": {
                     "type": "boolean"
                 },
-                "location_id": {
-                    "type": "string"
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
                 },
                 "name": {
                     "type": "string"
@@ -1614,6 +1632,8 @@ var doc = `{
         "job.SeachJobRequest": {
             "type": "object",
             "required": [
+                "latitude",
+                "longitude",
                 "name"
             ],
             "properties": {
@@ -1626,7 +1646,62 @@ var doc = `{
                 "is_equipment_required": {
                     "type": "boolean"
                 },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "job.UpdateJobImageRequest": {
+            "type": "object",
+            "required": [
+                "image"
+            ],
+            "properties": {
+                "image": {
+                    "type": "string"
+                }
+            }
+        },
+        "job.UpdateJobRequest": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "descriptions",
+                "latitude",
+                "longitude",
+                "name",
+                "transaction_id",
+                "valid_until"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "string"
+                },
+                "descriptions": {
+                    "type": "string"
+                },
+                "is_equipment_required": {
+                    "type": "boolean"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                },
+                "valid_until": {
                     "type": "string"
                 }
             }
@@ -1687,7 +1762,10 @@ var doc = `{
         "userDetail.CreateUserDetailRequest": {
             "type": "object",
             "required": [
+                "bio",
                 "email",
+                "latitude",
+                "longitude",
                 "telephone"
             ],
             "properties": {
@@ -1697,8 +1775,11 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
-                "location_id": {
-                    "type": "string"
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
                 },
                 "telephone": {
                     "type": "string"
@@ -1716,7 +1797,10 @@ var doc = `{
         "userDetail.UpdateUserDetailRequest": {
             "type": "object",
             "required": [
+                "bio",
                 "email",
+                "latitude",
+                "longitude",
                 "telephone"
             ],
             "properties": {
@@ -1726,8 +1810,11 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
-                "location_id": {
-                    "type": "string"
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
                 },
                 "telephone": {
                     "type": "string"
@@ -1776,6 +1863,9 @@ var doc = `{
                 "description": {
                     "type": "string"
                 },
+                "distance": {
+                    "type": "number"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -1785,8 +1875,14 @@ var doc = `{
                 "is_equipment_required": {
                     "type": "boolean"
                 },
+                "latitude": {
+                    "type": "number"
+                },
                 "location_id": {
                     "type": "string"
+                },
+                "longitude": {
+                    "type": "number"
                 },
                 "name": {
                     "type": "string"
@@ -1798,14 +1894,6 @@ var doc = `{
                     "type": "string"
                 },
                 "valid_until": {
-                    "type": "string"
-                }
-            }
-        },
-        "view.LocationEmptyView": {
-            "type": "object",
-            "properties": {
-                "id": {
                     "type": "string"
                 }
             }
@@ -1831,9 +1919,6 @@ var doc = `{
                 "house_number": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "string"
-                },
                 "latitude": {
                     "type": "number"
                 },
@@ -1856,9 +1941,6 @@ var doc = `{
                     "type": "string"
                 },
                 "suburb": {
-                    "type": "string"
-                },
-                "user_id": {
                     "type": "string"
                 }
             }
@@ -1941,8 +2023,11 @@ var doc = `{
                 "id": {
                     "type": "string"
                 },
-                "location_id": {
-                    "type": "string"
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
                 },
                 "telephone": {
                     "type": "string"

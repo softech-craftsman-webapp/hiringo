@@ -23,11 +23,14 @@ type Job struct {
 
 	// From Category Table
 	CategoryID string `gorm:"type:uuid;not null" json:"category_id"`
-	// From Location Table
-	LocationID string `gorm:"type:uuid;not null" json:"location_id"`
+
 	// From Transaction Table
 	TransactionID string `gorm:"type:uuid;not null" json:"transaction_id"`
 
 	// Contracts
 	Contracts []Contract `gorm:"foreignKey:JobID" json:"contracts"`
+
+	// Location
+	Latitude  float64 `gorm:"type:float;not null" json:"latitude"`
+	Longitude float64 `gorm:"type:float;not null" json:"longitude"`
 }

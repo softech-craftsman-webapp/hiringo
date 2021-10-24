@@ -5,6 +5,7 @@ import (
 	helper "hiringo/helper"
 	model "hiringo/model"
 	view "hiringo/view"
+	"sort"
 
 	"net/http"
 
@@ -14,10 +15,12 @@ import (
 
 // TODO: LOCATION SHOULD BE ADDED
 type SeachJobRequest struct {
-	Name                string `json:"name" validate:"required"`
-	Description         string `json:"description"`
-	CategoryID          string `json:"category_id"`
-	IsEquipmentRequired bool   `json:"is_equipment_required"`
+	Name                string  `json:"name" validate:"required"`
+	Description         string  `json:"description"`
+	CategoryID          string  `json:"category_id"`
+	IsEquipmentRequired bool    `json:"is_equipment_required"`
+	Latitude            float64 `json:"latitude" validate:"required"`
+	Longitude           float64 `json:"longitude" validate:"required"`
 }
 
 /*
@@ -118,8 +121,13 @@ func SearchJobs(ctx echo.Context) error {
 	// TODO: It can be optimized
 	var formatted_jobs []view.JobView
 	for _, job := range jobs {
-		formatted_jobs = append(formatted_jobs, view.JobModelToView(job))
+		formatted_jobs = append(formatted_jobs, view.JobModelToView(job, req.Latitude, req.Longitude))
 	}
+
+	// sort by distance
+	sort.Slice(formatted_jobs, func(i, j int) bool {
+		return formatted_jobs[i].Distance < formatted_jobs[j].Distance
+	})
 
 	/*
 	   |--------------------------------------------------------------------------

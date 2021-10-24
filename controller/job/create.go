@@ -12,14 +12,14 @@ import (
 )
 
 type CreateJobRequest struct {
-	Name                string `json:"name" validate:"required"`
-	Description         string `json:"descriptions" validate:"required"`
-	Image               string `json:"image"`
-	IsEquipmentRequired bool   `json:"is_equipment_required"`
-	ValidUntil          string `json:"valid_until"`
-	CategoryID          string `json:"category_id" validate:"required"`
-	LocationID          string `json:"location_id" validate:"required"`
-	TransactionID       string `json:"transaction_id" validate:"required"`
+	Name                string  `json:"name" validate:"required"`
+	Description         string  `json:"descriptions" validate:"required"`
+	IsEquipmentRequired bool    `json:"is_equipment_required"`
+	ValidUntil          string  `json:"valid_until" validate:"required"`
+	CategoryID          string  `json:"category_id" validate:"required"`
+	TransactionID       string  `json:"transaction_id" validate:"required"`
+	Latitude            float64 `json:"latitude" validate:"required,numeric"`
+	Longitude           float64 `json:"longitude" validate:"required,numeric"`
 }
 
 /*
@@ -75,13 +75,13 @@ func CreateJob(ctx echo.Context) error {
 	job := &model.Job{
 		UserID:              claims.User.ID,
 		Name:                req.Name,
-		Image:               req.Image,
 		Description:         req.Description,
 		IsEquipmentRequired: req.IsEquipmentRequired,
 		ValidUntil:          validUntil,
 		CategoryID:          req.CategoryID,
-		LocationID:          req.LocationID,
 		TransactionID:       req.TransactionID,
+		Latitude:            req.Latitude,
+		Longitude:           req.Longitude,
 	}
 
 	result := db.Create(&job)
@@ -116,8 +116,9 @@ func CreateJob(ctx echo.Context) error {
 			ValidUntil:          job.ValidUntil,
 			UserID:              job.UserID,
 			CategoryID:          job.CategoryID,
-			LocationID:          job.LocationID,
 			TransactionID:       job.TransactionID,
+			Latitude:            job.Latitude,
+			Longitude:           job.Longitude,
 		},
 	}
 

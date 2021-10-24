@@ -33,10 +33,7 @@ func InitRoutes(app *echo.Echo) {
 	app.GET("/openapi", controller.SwaggerRedirect)
 
 	// Location
-	access_route.GET("/locations/my", location_controller.GetMyLocations)
-	access_route.POST("/locations/new", location_controller.CreateLocation)
-	access_route.DELETE("/locations/:id", location_controller.DeleteLocation)
-	access_route.GET("/locations/:id", location_controller.GetLocationDetail)
+	access_route.POST("/locations/search", location_controller.GetLocation)
 
 	// Category
 	access_route.GET("/categories/all", category_controller.GetAllCategories)
@@ -58,10 +55,13 @@ func InitRoutes(app *echo.Echo) {
 	access_route.DELETE("/jobs/:id", job_controller.DeleteJob)
 	access_route.POST("/jobs/search", job_controller.SearchJobs)
 	access_route.GET("/jobs/:id", job_controller.GetJobDetail)
+	access_route.PUT("/jobs/:id", job_controller.UpdateJob)
+	access_route.PUT("/jobs/:id/image", job_controller.AddOrUpdateJobImage)
 
 	// User Details
 	access_route.POST("/user-detail/new", user_detail_controller.CreateUserDetail)
 	access_route.GET("/user-detail/:id/rating", user_detail_controller.GetUserRating)
 	access_route.PUT("/user-details/:id", user_detail_controller.UpdateUserDetail)
 	access_route.POST("/user-details/:id/reveal", user_detail_controller.RevealUserDetail)
+	access_route.GET("/user-details/my", user_detail_controller.MyUserDetail)
 }

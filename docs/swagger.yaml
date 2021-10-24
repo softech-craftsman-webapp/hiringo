@@ -15,12 +15,12 @@ definitions:
         type: string
       descriptions:
         type: string
-      image:
-        type: string
       is_equipment_required:
         type: boolean
-      location_id:
-        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
       name:
         type: string
       transaction_id:
@@ -30,9 +30,11 @@ definitions:
     required:
     - category_id
     - descriptions
-    - location_id
+    - latitude
+    - longitude
     - name
     - transaction_id
+    - valid_until
     type: object
   job.SeachJobRequest:
     properties:
@@ -42,10 +44,50 @@ definitions:
         type: string
       is_equipment_required:
         type: boolean
+      latitude:
+        type: number
+      longitude:
+        type: number
       name:
         type: string
     required:
+    - latitude
+    - longitude
     - name
+    type: object
+  job.UpdateJobImageRequest:
+    properties:
+      image:
+        type: string
+    required:
+    - image
+    type: object
+  job.UpdateJobRequest:
+    properties:
+      category_id:
+        type: string
+      descriptions:
+        type: string
+      is_equipment_required:
+        type: boolean
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      transaction_id:
+        type: string
+      valid_until:
+        type: string
+    required:
+    - category_id
+    - descriptions
+    - latitude
+    - longitude
+    - name
+    - transaction_id
+    - valid_until
     type: object
   location.CreateLocationRequest:
     properties:
@@ -89,12 +131,17 @@ definitions:
         type: string
       email:
         type: string
-      location_id:
-        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
       telephone:
         type: string
     required:
+    - bio
     - email
+    - latitude
+    - longitude
     - telephone
     type: object
   userDetail.RevealUserDetailRequest:
@@ -108,12 +155,17 @@ definitions:
         type: string
       email:
         type: string
-      location_id:
-        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
       telephone:
         type: string
     required:
+    - bio
     - email
+    - latitude
+    - longitude
     - telephone
     type: object
   view.CategoryEmptyView:
@@ -143,14 +195,20 @@ definitions:
         type: string
       description:
         type: string
+      distance:
+        type: number
       id:
         type: string
       image:
         type: string
       is_equipment_required:
         type: boolean
+      latitude:
+        type: number
       location_id:
         type: string
+      longitude:
+        type: number
       name:
         type: string
       transaction_id:
@@ -158,11 +216,6 @@ definitions:
       user_id:
         type: string
       valid_until:
-        type: string
-    type: object
-  view.LocationEmptyView:
-    properties:
-      id:
         type: string
     type: object
   view.LocationView:
@@ -179,8 +232,6 @@ definitions:
         type: string
       house_number:
         type: string
-      id:
-        type: string
       latitude:
         type: number
       longitude:
@@ -196,8 +247,6 @@ definitions:
       street:
         type: string
       suburb:
-        type: string
-      user_id:
         type: string
     type: object
   view.PublicCategoryView:
@@ -251,8 +300,10 @@ definitions:
         type: string
       id:
         type: string
-      location_id:
-        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
       telephone:
         type: string
       user_id:
@@ -542,6 +593,101 @@ paths:
       - JWT: []
       tags:
       - job
+    put:
+      consumes:
+      - application/json
+      description: Create Job
+      parameters:
+      - description: Job related informations
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/job.UpdateJobRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.JobView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - job
+  /jobs/{id}/image:
+    put:
+      consumes:
+      - application/json
+      description: Create Job
+      parameters:
+      - description: Job related informations
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/job.UpdateJobImageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.JobView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - job
   /jobs/new:
     post:
       consumes:
@@ -640,137 +786,7 @@ paths:
       - JWT: []
       tags:
       - job
-  /locations/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete Location
-      parameters:
-      - description: Location id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  $ref: '#/definitions/view.LocationEmptyView'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - location
-    get:
-      consumes:
-      - application/json
-      description: Get location Details
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  $ref: '#/definitions/view.LocationView'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - location
-  /locations/my:
-    get:
-      consumes:
-      - application/json
-      description: Get user details
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  items:
-                    $ref: '#/definitions/view.LocationView'
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - location
-  /locations/new:
+  /locations/search:
     post:
       consumes:
       - application/json
@@ -1109,6 +1125,51 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/userDetail.RevealUserDetailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.UserDetailView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - user-detail
+  /user-details/my:
+    post:
+      consumes:
+      - application/json
+      description: Get user's details
       produces:
       - application/json
       responses:

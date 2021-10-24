@@ -10,7 +10,6 @@ func Migrate() {
 	// Auto Migration
 	db.AutoMigrate(&model.Category{})
 	db.AutoMigrate(&model.Job{})
-	db.AutoMigrate(&model.Location{})
 	db.AutoMigrate(&model.Transaction{})
 	db.AutoMigrate(&model.UserDetail{})
 	db.AutoMigrate(&model.Rating{})
