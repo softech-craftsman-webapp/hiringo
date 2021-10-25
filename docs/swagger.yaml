@@ -378,7 +378,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get transaction Details
+      description: Get category Details
       produces:
       - application/json
       responses:
@@ -389,7 +389,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.TransactionView'
+                  $ref: '#/definitions/view.CategoryView'
               type: object
         "400":
           description: Bad Request
@@ -414,7 +414,7 @@ paths:
       security:
       - JWT: []
       tags:
-      - transaction
+      - category
   /categories/all:
     get:
       consumes:
@@ -923,6 +923,47 @@ paths:
       - JWT: []
       tags:
       - rating
+  /transactions/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get transaction Details
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.TransactionView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - transaction
   /transactions/my:
     get:
       consumes:

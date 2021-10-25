@@ -23,7 +23,7 @@ import (
 // @Success 200 {object} view.Response{payload=view.TransactionView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /categories/{id} [get]
+// @Router /transactions/{id} [get]
 // @Security JWT
 func GetTransactionDetail(ctx echo.Context) error {
 	db := config.GetDB()

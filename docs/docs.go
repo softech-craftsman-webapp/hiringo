@@ -186,7 +186,7 @@ var doc = `{
                         "JWT": []
                     }
                 ],
-                "description": "Get transaction Details",
+                "description": "Get category Details",
                 "consumes": [
                     "application/json"
                 ],
@@ -194,7 +194,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "transaction"
+                    "category"
                 ],
                 "responses": {
                     "200": {
@@ -208,7 +208,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "payload": {
-                                            "$ref": "#/definitions/view.TransactionView"
+                                            "$ref": "#/definitions/view.CategoryView"
                                         }
                                     }
                                 }
@@ -1152,6 +1152,75 @@ var doc = `{
                     },
                     "403": {
                         "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/transactions/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get transaction Details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/view.TransactionView"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/view.Response"
                         }
