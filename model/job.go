@@ -28,7 +28,8 @@ type Job struct {
 	TransactionID string `gorm:"type:uuid;not null" json:"transaction_id"`
 
 	// Contracts
-	Contracts []Contract `gorm:"foreignKey:JobID" json:"contracts"`
+	Contracts        []Contract `gorm:"foreignKey:JobID" json:"contracts"`
+	IsContractSigned bool       `gorm:"default:false" json:"is_contract_signed"`
 
 	// Location
 	Latitude  float64 `gorm:"type:float;not null" json:"latitude"`

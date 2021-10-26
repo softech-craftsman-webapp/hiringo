@@ -1,43 +1,43 @@
-package rating
+package contract
 
 import (
 	config "hiringo/config"
 	model "hiringo/model"
 	view "hiringo/view"
+
 	"net/http"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
 /*
    |--------------------------------------------------------------------------
-   | Get Rating Detail
+   | Get User Contracts
    | @JWT via Acess Token
    |--------------------------------------------------------------------------
 */
-// Get rating Details
-// @Tags rating
-// @Description Get rating Details
+// Get Job Contracts
+// @Tags contract
+// @Description Get Job Contracts
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Rating id"
-// @Success 200 {object} view.Response{payload=view.RatingView}
+// @Success 200 {object} view.Response{payload=[]view.ContractView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /ratings/{id} [get]
+// @Router /contracts/my [get]
 // @Security JWT
-func GetRatingDetail(ctx echo.Context) error {
+func GetJobContracts(ctx echo.Context) error {
+	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 	db := config.GetDB()
 
-	rating := model.Rating{
-		ID: ctx.Param("id"),
-	}
-	result := db.First(&rating)
+	var contracts []model.Contract
+	result := db.Where("professional_id = ?", claims.User.ID).Find(&contracts)
 
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Rating not found",
+			Message: "Contracts not found",
 			Payload: nil,
 		}
 		// close db
@@ -46,17 +46,16 @@ func GetRatingDetail(ctx echo.Context) error {
 		return view.ApiView(http.StatusNotFound, ctx, resp)
 	}
 
+	// TODO: It can be optimized
+	var formatted_contracts []view.ContractView
+	for _, contract := range contracts {
+		formatted_contracts = append(formatted_contracts, view.ContractModelToView(contract))
+	}
+
 	resp := &view.Response{
 		Success: true,
 		Message: "Success",
-		Payload: &view.RatingView{
-			ID:            rating.ID,
-			UserID:        rating.UserID,
-			ContractID:    rating.ContractID,
-			Points:        rating.Points,
-			SubmittedByID: rating.SubmittedByID,
-			Comment:       rating.Comment,
-		},
+		Payload: formatted_contracts,
 	}
 
 	// close db

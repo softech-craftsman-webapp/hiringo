@@ -20,6 +20,7 @@ import (
 // @Description Get Job Details
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Job id"
 // @Success 200 {object} view.Response{payload=view.JobView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
@@ -60,6 +61,7 @@ func GetJobDetail(ctx echo.Context) error {
 			TransactionID:       job.TransactionID,
 			Longitude:           job.Longitude,
 			Latitude:            job.Latitude,
+			IsContractSigned:    job.IsContractSigned,
 		},
 	}
 

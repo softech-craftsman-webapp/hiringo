@@ -119,6 +119,7 @@ func CreateJob(ctx echo.Context) error {
 			TransactionID:       job.TransactionID,
 			Latitude:            job.Latitude,
 			Longitude:           job.Longitude,
+			IsContractSigned:    job.IsContractSigned,
 		},
 	}
 

@@ -20,6 +20,7 @@ import (
 // @Description Get user average rating
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Rating id"
 // @Success 200 {object} view.Response{payload=view.UserRatingDetailView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response

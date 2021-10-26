@@ -20,6 +20,7 @@ import (
 // @Description Get transaction Details
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Transaction id"
 // @Success 200 {object} view.Response{payload=view.TransactionView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response

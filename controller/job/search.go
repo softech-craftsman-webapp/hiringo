@@ -13,7 +13,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// TODO: LOCATION SHOULD BE ADDED
+// TODO: Somehow lat and long is required fields to calculate distance
+// IDK, how to set default value for them
 type SeachJobRequest struct {
 	Name                string  `json:"name" validate:"required"`
 	Description         string  `json:"description"`

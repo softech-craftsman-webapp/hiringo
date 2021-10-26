@@ -14,13 +14,14 @@ type JobView struct {
 	Description         string    `json:"description"`
 	Image               string    `json:"image"`
 	ValidUntil          time.Time `json:"valid_until"`
+	IsPremium           bool      `json:"is_premium"`
 	IsEquipmentRequired bool      `json:"is_equipment_required"`
 	CategoryID          string    `json:"category_id"`
-	LocationID          string    `json:"location_id"`
 	TransactionID       string    `json:"transaction_id"`
 	Latitude            float64   `json:"latitude"`
 	Longitude           float64   `json:"longitude"`
 	Distance            float64   `json:"distance"`
+	IsContractSigned    bool      `json:"is_contract_signed"`
 }
 
 type JobEmptyView struct {
@@ -37,11 +38,13 @@ func JobModelToView(job model.Job, lat float64, long float64) JobView {
 		Description:         job.Description,
 		Image:               job.Image,
 		ValidUntil:          job.ValidUntil,
+		IsPremium:           job.IsPremium,
 		IsEquipmentRequired: job.IsEquipmentRequired,
 		CategoryID:          job.CategoryID,
 		TransactionID:       job.TransactionID,
 		Latitude:            job.Latitude,
 		Longitude:           job.Longitude,
 		Distance:            distance,
+		IsContractSigned:    job.IsContractSigned,
 	}
 }

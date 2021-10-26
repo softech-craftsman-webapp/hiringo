@@ -20,6 +20,7 @@ import (
 // @Description Get category Details
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Category id"
 // @Success 200 {object} view.Response{payload=view.CategoryView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response

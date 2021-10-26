@@ -4,6 +4,7 @@ import (
 	config "hiringo/config"
 	controller "hiringo/controller"
 	category_controller "hiringo/controller/category"
+	contract_controller "hiringo/controller/contract"
 	job_controller "hiringo/controller/job"
 	location_controller "hiringo/controller/location"
 	rating_controller "hiringo/controller/rating"
@@ -57,11 +58,20 @@ func InitRoutes(app *echo.Echo) {
 	access_route.GET("/jobs/:id", job_controller.GetJobDetail)
 	access_route.PUT("/jobs/:id", job_controller.UpdateJob)
 	access_route.PUT("/jobs/:id/image", job_controller.AddOrUpdateJobImage)
+	access_route.GET("/jobs/:id/contracts", job_controller.GetJobContracts)
 
 	// User Details
-	access_route.POST("/user-detail/new", user_detail_controller.CreateUserDetail)
-	access_route.GET("/user-detail/:id/rating", user_detail_controller.GetUserRating)
+	access_route.POST("/user-details/new", user_detail_controller.CreateUserDetail)
+	access_route.GET("/user-details/:id/rating", user_detail_controller.GetUserRating)
 	access_route.PUT("/user-details/:id", user_detail_controller.UpdateUserDetail)
 	access_route.POST("/user-details/:id/reveal", user_detail_controller.RevealUserDetail)
 	access_route.GET("/user-details/my", user_detail_controller.MyUserDetail)
+
+	// Contracts
+	access_route.POST("/contracts/new", contract_controller.CreateContract)
+	access_route.GET("/contracts/my", contract_controller.GetJobContracts)
+	access_route.GET("/contracts/:id", contract_controller.GetContractDetail)
+	access_route.PUT("/contracts/:id", contract_controller.UpdateContractDetail)
+	access_route.POST("/contracts/:id/sign", contract_controller.SignContract)
+	access_route.DELETE("/contracts/:id", contract_controller.DeleteContract)
 }

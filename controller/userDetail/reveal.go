@@ -105,7 +105,7 @@ func RevealUserDetail(ctx echo.Context) error {
 		}
 	}
 
-	if contract.SignedByRecruiterTime == nil || contract.SignedByProfessionalTime == nil {
+	if contract.SignedByRecruiterTime.IsZero() || contract.SignedByProfessionalTime.IsZero() {
 		resp := &view.Response{
 			Success: true,
 			Message: "Contract not yet signed",

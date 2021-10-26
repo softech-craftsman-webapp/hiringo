@@ -9,6 +9,29 @@ definitions:
     required:
     - name
     type: object
+  contract.CreateContractRequest:
+    properties:
+      end_time:
+        type: string
+      job_id:
+        type: string
+      start_time:
+        type: string
+    required:
+    - end_time
+    - job_id
+    - start_time
+    type: object
+  contract.UpdateContractRequest:
+    properties:
+      end_time:
+        type: string
+      start_time:
+        type: string
+    required:
+    - end_time
+    - start_time
+    type: object
   job.CreateJobRequest:
     properties:
       category_id:
@@ -184,6 +207,30 @@ definitions:
       name:
         type: string
     type: object
+  view.ContractEmptyView:
+    properties:
+      id:
+        type: string
+    type: object
+  view.ContractView:
+    properties:
+      end_time:
+        type: string
+      id:
+        type: string
+      job_id:
+        type: string
+      professional_id:
+        type: string
+      recruiter_id:
+        type: string
+      signed_by_professional_time:
+        type: string
+      signed_by_recruiter_time:
+        type: string
+      start_time:
+        type: string
+    type: object
   view.JobEmptyView:
     properties:
       id:
@@ -201,12 +248,14 @@ definitions:
         type: string
       image:
         type: string
+      is_contract_signed:
+        type: boolean
       is_equipment_required:
+        type: boolean
+      is_premium:
         type: boolean
       latitude:
         type: number
-      location_id:
-        type: string
       longitude:
         type: number
       name:
@@ -290,6 +339,11 @@ definitions:
       id:
         type: string
       user_id:
+        type: string
+    type: object
+  view.UserDetailEmptyView:
+    properties:
+      id:
         type: string
     type: object
   view.UserDetailView:
@@ -379,6 +433,12 @@ paths:
       consumes:
       - application/json
       description: Get category Details
+      parameters:
+      - description: Category id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -506,6 +566,289 @@ paths:
       - JWT: []
       tags:
       - category
+  /contracts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete contract
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.ContractEmptyView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+    get:
+      consumes:
+      - application/json
+      description: Get Contract Detail
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.ContractView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+    put:
+      consumes:
+      - application/json
+      description: Update Contract
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Contract details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/contract.UpdateContractRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.ContractEmptyView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+  /contracts/{id}/sign:
+    post:
+      consumes:
+      - application/json
+      description: Sign Contract by Recruiter
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.ContractEmptyView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+  /contracts/my:
+    get:
+      consumes:
+      - application/json
+      description: Get Job Contracts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.ContractView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+  /contracts/new:
+    post:
+      consumes:
+      - application/json
+      description: Create Contract
+      parameters:
+      - description: Contract for Job
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/contract.CreateContractRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.ContractView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
   /jobs/{id}:
     delete:
       consumes:
@@ -557,6 +900,12 @@ paths:
       consumes:
       - application/json
       description: Get Job Details
+      parameters:
+      - description: Job id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -598,6 +947,11 @@ paths:
       - application/json
       description: Create Job
       parameters:
+      - description: Job id
+        in: path
+        name: id
+        required: true
+        type: string
       - description: Job related informations
         in: body
         name: user
@@ -640,12 +994,66 @@ paths:
       - JWT: []
       tags:
       - job
+  /jobs/{id}/contracts:
+    get:
+      consumes:
+      - application/json
+      description: Get Job Contracts
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.ContractView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
   /jobs/{id}/image:
     put:
       consumes:
       - application/json
       description: Create Job
       parameters:
+      - description: Job id
+        in: path
+        name: id
+        required: true
+        type: string
       - description: Job related informations
         in: body
         name: user
@@ -839,6 +1247,12 @@ paths:
       consumes:
       - application/json
       description: Get rating Details
+      parameters:
+      - description: Rating id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -928,6 +1342,12 @@ paths:
       consumes:
       - application/json
       description: Get transaction Details
+      parameters:
+      - description: Transaction id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1082,7 +1502,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/view.UserDetailView'
+                  $ref: '#/definitions/view.UserDetailEmptyView'
               type: object
         "400":
           description: Bad Request
@@ -1113,6 +1533,12 @@ paths:
       consumes:
       - application/json
       description: Get user average rating
+      parameters:
+      - description: Rating id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:

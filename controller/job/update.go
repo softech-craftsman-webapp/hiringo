@@ -33,6 +33,7 @@ type UpdateJobRequest struct {
 // @Description Create Job
 // @Accept  json
 // @Produce  json
+// @Param id path string true "Job id"
 // @Param user body UpdateJobRequest true "Job related informations"
 // @Success 200 {object} view.Response{payload=view.JobView}
 // @Failure 400,401,403,500 {object} view.Response
@@ -76,7 +77,7 @@ func UpdateJob(ctx echo.Context) error {
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&job, "id = ?", claims.User.ID)
+	db.First(&job, "id = ? AND user_id = ?", job.ID, claims.User.ID)
 
 	/*
 	   |--------------------------------------------------------------------------
