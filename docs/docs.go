@@ -802,6 +802,75 @@ var doc = `{
                 }
             }
         },
+        "/jobs/my": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get Job Detail for authenticated user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "job"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/view.MyJobView"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/jobs/new": {
             "post": {
                 "security": [
@@ -922,10 +991,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "payload": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/view.JobView"
-                                            }
+                                            "$ref": "#/definitions/view.JobPaginationView"
                                         }
                                     }
                                 }
@@ -2433,6 +2499,32 @@ var doc = `{
                 }
             }
         },
+        "paginator.Pagination": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "nextPage": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "prevPage": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                },
+                "totalRecords": {
+                    "type": "integer"
+                }
+            }
+        },
         "rating.CreateRatingRequest": {
             "type": "object",
             "required": [
@@ -2603,6 +2695,20 @@ var doc = `{
                 }
             }
         },
+        "view.JobPaginationView": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/view.JobView"
+                    }
+                },
+                "pagination": {
+                    "$ref": "#/definitions/paginator.Pagination"
+                }
+            }
+        },
         "view.JobView": {
             "type": "object",
             "properties": {
@@ -2694,6 +2800,23 @@ var doc = `{
                 },
                 "suburb": {
                     "type": "string"
+                }
+            }
+        },
+        "view.MyJobView": {
+            "type": "object",
+            "properties": {
+                "applied": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/view.JobView"
+                    }
+                },
+                "created": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/view.JobView"
+                    }
                 }
             }
         },

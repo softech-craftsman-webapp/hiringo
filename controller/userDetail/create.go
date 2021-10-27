@@ -91,14 +91,14 @@ func CreateUserDetail(ctx echo.Context) error {
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: false,
-			Message: result.Error.Error(),
+			Message: "Duplicate error",
 			Payload: nil,
 		}
 
 		// close db
 		config.CloseDB(db).Close()
 
-		return view.ApiView(http.StatusCreated, ctx, resp)
+		return view.ApiView(http.StatusBadRequest, ctx, resp)
 	}
 
 	resp := &view.Response{

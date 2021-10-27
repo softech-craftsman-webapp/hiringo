@@ -122,6 +122,23 @@ definitions:
     - latitude
     - longitude
     type: object
+  paginator.Pagination:
+    properties:
+      limit:
+        type: integer
+      nextPage:
+        type: integer
+      offset:
+        type: integer
+      page:
+        type: integer
+      prevPage:
+        type: integer
+      totalPage:
+        type: integer
+      totalRecords:
+        type: integer
+    type: object
   rating.CreateRatingRequest:
     properties:
       comment:
@@ -236,6 +253,15 @@ definitions:
       id:
         type: string
     type: object
+  view.JobPaginationView:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/view.JobView'
+        type: array
+      pagination:
+        $ref: '#/definitions/paginator.Pagination'
+    type: object
   view.JobView:
     properties:
       category_id:
@@ -297,6 +323,17 @@ definitions:
         type: string
       suburb:
         type: string
+    type: object
+  view.MyJobView:
+    properties:
+      applied:
+        items:
+          $ref: '#/definitions/view.JobView'
+        type: array
+      created:
+        items:
+          $ref: '#/definitions/view.JobView'
+        type: array
     type: object
   view.PublicCategoryView:
     properties:
@@ -1096,6 +1133,47 @@ paths:
       - JWT: []
       tags:
       - job
+  /jobs/my:
+    get:
+      consumes:
+      - application/json
+      description: Get Job Detail for authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.MyJobView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - job
   /jobs/new:
     post:
       consumes:
@@ -1166,9 +1244,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  items:
-                    $ref: '#/definitions/view.JobView'
-                  type: array
+                  $ref: '#/definitions/view.JobPaginationView'
               type: object
         "400":
           description: Bad Request

@@ -5,6 +5,8 @@ import (
 	model "hiringo/model"
 
 	"time"
+
+	paginator "github.com/dmitryburov/gorm-paginator"
 )
 
 type JobView struct {
@@ -26,6 +28,21 @@ type JobView struct {
 
 type JobEmptyView struct {
 	ID string `json:"id"`
+}
+
+type JobPagination struct {
+	Items      []model.Job           `json:"items"`
+	Pagination *paginator.Pagination `json:"pagination"`
+}
+
+type JobPaginationView struct {
+	Items      []JobView             `json:"items"`
+	Pagination *paginator.Pagination `json:"pagination"`
+}
+
+type MyJobView struct {
+	Applied []JobView `json:"applied"`
+	Created []JobView `json:"created"`
 }
 
 func JobModelToView(job model.Job, lat float64, long float64) JobView {

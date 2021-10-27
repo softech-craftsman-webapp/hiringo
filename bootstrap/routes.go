@@ -56,6 +56,7 @@ func InitRoutes(app *echo.Echo) {
 	access_route.DELETE("/jobs/:id", job_controller.DeleteJob)
 	access_route.POST("/jobs/search", job_controller.SearchJobs)
 	access_route.GET("/jobs/:id", job_controller.GetJobDetail)
+	access_route.GET("/jobs/my", job_controller.GetMyJobs)
 	access_route.PUT("/jobs/:id", job_controller.UpdateJob)
 	access_route.PUT("/jobs/:id/image", job_controller.AddOrUpdateJobImage)
 	access_route.GET("/jobs/:id/contracts", job_controller.GetJobContracts)

@@ -69,5 +69,6 @@ require (
 
 require (
 	github.com/codingsince1985/geo-golang v1.8.1
+	github.com/dmitryburov/gorm-paginator v0.9.6
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
