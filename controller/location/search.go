@@ -69,7 +69,6 @@ func reverseGeoCode(lat float64, lng float64) (view.LocationView, error) {
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
 // @Router /locations/search [post]
-// @Security JWT
 func GetLocation(ctx echo.Context) error {
 	req := new(CreateLocationRequest)
 

@@ -1440,11 +1440,6 @@ var doc = `{
         },
         "/locations/coordinates": {
             "get": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Create Location",
                 "consumes": [
                     "application/json"
@@ -1509,11 +1504,6 @@ var doc = `{
         },
         "/locations/search": {
             "post": {
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
                 "description": "Create Location",
                 "consumes": [
                     "application/json"

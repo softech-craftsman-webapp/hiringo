@@ -63,7 +63,6 @@ func reverseIp(ip string) (view.CoordinatesView, error) {
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
 // @Router /locations/coordinates [get]
-// @Security JWT
 func GetCoordinatesUser(ctx echo.Context) error {
 	ip := ctx.RealIP()
 	coordinates, error := reverseIp(ip)

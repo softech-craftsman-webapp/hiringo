@@ -1323,8 +1323,6 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
       tags:
       - location
   /locations/search:
@@ -1371,8 +1369,6 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
       tags:
       - location
   /ratings/{id}:
