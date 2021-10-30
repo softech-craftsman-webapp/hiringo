@@ -19,3 +19,9 @@ type LocationView struct {
 	} `json:"address"`
 	Boundingbox []string `json:"boundingbox"`
 }
+
+type CoordinatesView struct {
+	Ip  string  `json:"ip"`
+	Lat float64 `json:"lat"`
+	Lon float64 `json:"lon"`
+}

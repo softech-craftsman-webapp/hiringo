@@ -1424,6 +1424,75 @@
                 }
             }
         },
+        "/locations/coordinates": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Create Location",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "location"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/view.CoordinatesView"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/locations/search": {
             "post": {
                 "security": [
@@ -2673,6 +2742,20 @@
                 }
             }
         },
+        "view.CoordinatesView": {
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lon": {
+                    "type": "number"
+                }
+            }
+        },
         "view.JobEmptyView": {
             "type": "object",
             "properties": {
@@ -2746,46 +2829,57 @@
             "type": "object",
             "properties": {
                 "address": {
+                    "type": "object",
+                    "properties": {
+                        "city_district": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        },
+                        "country_code": {
+                            "type": "string"
+                        },
+                        "house_number": {
+                            "type": "string"
+                        },
+                        "postcode": {
+                            "type": "string"
+                        },
+                        "region": {
+                            "type": "string"
+                        },
+                        "road": {
+                            "type": "string"
+                        },
+                        "suburb": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "boundingbox": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "display_name": {
                     "type": "string"
                 },
-                "city": {
+                "lat": {
                     "type": "string"
                 },
-                "country": {
+                "lon": {
                     "type": "string"
                 },
-                "country_code": {
+                "osm_id": {
+                    "type": "integer"
+                },
+                "osm_type": {
                     "type": "string"
                 },
-                "county": {
-                    "type": "string"
-                },
-                "house_number": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "postcode": {
-                    "type": "string"
-                },
-                "state": {
-                    "type": "string"
-                },
-                "state_code": {
-                    "type": "string"
-                },
-                "state_district": {
-                    "type": "string"
-                },
-                "street": {
-                    "type": "string"
-                },
-                "suburb": {
-                    "type": "string"
+                "place_id": {
+                    "type": "integer"
                 }
             }
         },

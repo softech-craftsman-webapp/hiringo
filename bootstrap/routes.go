@@ -35,6 +35,7 @@ func InitRoutes(app *echo.Echo) {
 
 	// Location
 	access_route.POST("/locations/search", location_controller.GetLocation)
+	access_route.GET("/locations/coordinates", location_controller.GetCoordinatesUser)
 
 	// Category
 	access_route.GET("/categories/all", category_controller.GetAllCategories)
