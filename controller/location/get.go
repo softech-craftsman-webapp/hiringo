@@ -53,7 +53,7 @@ func GetLocation(ctx echo.Context) error {
 	if error != nil {
 		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
 			Success: false,
-			Message: "Geocode could not find an Address",
+			Message: error.Error(),
 			Payload: nil,
 		})
 	}
