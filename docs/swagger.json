@@ -2418,7 +2418,7 @@
             "type": "object",
             "required": [
                 "category_id",
-                "descriptions",
+                "description",
                 "latitude",
                 "longitude",
                 "name",
@@ -2429,7 +2429,10 @@
                 "category_id": {
                     "type": "string"
                 },
-                "descriptions": {
+                "description": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "is_equipment_required": {

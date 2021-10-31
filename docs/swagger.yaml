@@ -36,7 +36,9 @@ definitions:
     properties:
       category_id:
         type: string
-      descriptions:
+      description:
+        type: string
+      image:
         type: string
       is_equipment_required:
         type: boolean
@@ -52,7 +54,7 @@ definitions:
         type: string
     required:
     - category_id
-    - descriptions
+    - description
     - latitude
     - longitude
     - name

@@ -13,7 +13,8 @@ import (
 
 type CreateJobRequest struct {
 	Name                string  `json:"name" validate:"required"`
-	Description         string  `json:"descriptions" validate:"required"`
+	Description         string  `json:"description" validate:"required"`
+	Image               string  `json:"image"`
 	IsEquipmentRequired bool    `json:"is_equipment_required"`
 	ValidUntil          string  `json:"valid_until" validate:"required"`
 	CategoryID          string  `json:"category_id" validate:"required"`
@@ -82,6 +83,11 @@ func CreateJob(ctx echo.Context) error {
 		TransactionID:       req.TransactionID,
 		Latitude:            req.Latitude,
 		Longitude:           req.Longitude,
+	}
+
+	// Add image
+	if req.Image != "" {
+		job.Image = req.Image
 	}
 
 	result := db.Create(&job)

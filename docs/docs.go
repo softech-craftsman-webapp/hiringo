@@ -2432,7 +2432,7 @@ var doc = `{
             "type": "object",
             "required": [
                 "category_id",
-                "descriptions",
+                "description",
                 "latitude",
                 "longitude",
                 "name",
@@ -2443,7 +2443,10 @@ var doc = `{
                 "category_id": {
                     "type": "string"
                 },
-                "descriptions": {
+                "description": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "is_equipment_required": {
