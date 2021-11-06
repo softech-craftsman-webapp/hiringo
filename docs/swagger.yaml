@@ -55,6 +55,7 @@ definitions:
     required:
     - category_id
     - description
+    - image
     - latitude
     - longitude
     - name
@@ -1055,7 +1056,7 @@ paths:
       - application/json
       description: Get Job Contracts
       parameters:
-      - description: Contract id
+      - description: Job id
         in: path
         name: id
         required: true

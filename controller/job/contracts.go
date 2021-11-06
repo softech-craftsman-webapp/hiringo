@@ -22,7 +22,7 @@ import (
 // @Description Get Job Contracts
 // @Accept  json
 // @Produce  json
-// @Param id path string true "Contract id"
+// @Param id path string true "Job id"
 // @Success 200 {object} view.Response{payload=[]view.ContractView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
