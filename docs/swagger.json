@@ -1563,6 +1563,78 @@
                 }
             }
         },
+        "/ratings/my": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Get user ratings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rating"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/view.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/view.RatingView"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/view.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/ratings/new": {
             "post": {
                 "security": [

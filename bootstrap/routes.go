@@ -49,6 +49,7 @@ func InitRoutes(app *echo.Echo) {
 	access_route.POST("/transactions/new", transaction_controller.CreateTransaction)
 
 	// Rating
+	access_route.GET("/ratings/my", rating_controller.GetMyRatings)
 	access_route.GET("/ratings/:id", rating_controller.GetRatingDetail)
 	access_route.POST("/ratings/new", rating_controller.CreateRating)
 

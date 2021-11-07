@@ -1,5 +1,7 @@
 package view
 
+import "hiringo/model"
+
 type RatingView struct {
 	ID            string `json:"id"`
 	SubmittedByID string `json:"submitted_by_id"`
@@ -11,4 +13,15 @@ type RatingView struct {
 
 type RatingEmptyView struct {
 	ID string `json:"id"`
+}
+
+func RatingModelToView(rating model.Rating) RatingView {
+	return RatingView{
+		ID:            rating.ID,
+		UserID:        rating.UserID,
+		SubmittedByID: rating.SubmittedByID,
+		ContractID:    rating.ContractID,
+		Points:        rating.Points,
+		Comment:       rating.Comment,
+	}
 }
