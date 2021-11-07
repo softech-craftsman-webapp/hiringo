@@ -19,8 +19,8 @@ type CreateJobRequest struct {
 	ValidUntil          string  `json:"valid_until" validate:"required"`
 	CategoryID          string  `json:"category_id" validate:"required"`
 	TransactionID       string  `json:"transaction_id" validate:"required"`
-	Latitude            float64 `json:"latitude" validate:"required,numeric"`
-	Longitude           float64 `json:"longitude" validate:"required,numeric"`
+	Latitude            float64 `json:"latitude" validate:"required"`
+	Longitude           float64 `json:"longitude" validate:"required"`
 }
 
 /*

@@ -35,14 +35,14 @@ func GetMyRatings(ctx echo.Context) error {
 
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Internal Server Error",
+			Success: false,
+			Message: "Ratings not found",
 			Payload: nil,
 		}
 		// close db
 		config.CloseDB(db).Close()
 
-		return view.ApiView(http.StatusInternalServerError, ctx, resp)
+		return view.ApiView(http.StatusNotFound, ctx, resp)
 	}
 
 	// TODO: It can be optimized
