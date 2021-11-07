@@ -12,7 +12,7 @@ import (
 
 type CreateUserDetailRequest struct {
 	Email     string  `json:"email" validate:"required,email"`
-	Telephone string  `json:"telephone" validate:"required,numeric"`
+	Telephone string  `json:"telephone" validate:"required"`
 	Bio       string  `json:"bio" validate:"required"`
 	Latitude  float64 `json:"latitude" validate:"required,numeric"`
 	Longitude float64 `json:"longitude" validate:"required,numeric"`
