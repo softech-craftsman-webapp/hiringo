@@ -48,7 +48,7 @@ func CreateCategory(ctx echo.Context) error {
 
 		return ctx.JSON(http.StatusBadRequest, &view.Response{
 			Success: false,
-			Message: "Bad request",
+			Message: err.Error(),
 			Payload: nil,
 		})
 	}

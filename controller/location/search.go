@@ -80,7 +80,7 @@ func GetLocation(ctx echo.Context) error {
 	if err := config.BindAndValidate(ctx, req); err != nil {
 		return ctx.JSON(http.StatusBadRequest, &view.Response{
 			Success: false,
-			Message: "Bad request",
+			Message: err.Error(),
 			Payload: nil,
 		})
 	}

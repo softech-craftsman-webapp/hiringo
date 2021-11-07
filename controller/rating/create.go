@@ -50,7 +50,7 @@ func CreateRating(ctx echo.Context) error {
 
 		return view.ApiView(http.StatusBadRequest, ctx, &view.Response{
 			Success: false,
-			Message: "Bad request",
+			Message: err.Error(),
 			Payload: nil,
 		})
 	}
