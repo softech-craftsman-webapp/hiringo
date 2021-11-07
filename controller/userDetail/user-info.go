@@ -25,14 +25,14 @@ import (
 // @Success 200 {object} view.Response{payload=view.UserDetailView}
 // @Failure 400,401,403,404,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details/my [post]
+// @Router /user-details/my [get]
 // @Security JWT
 func MyUserDetail(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
 	db := config.GetDB()
 
 	userDetail := &model.UserDetail{
-		ID: claims.User.ID,
+		UserID: claims.User.ID,
 	}
 
 	userDetail_result := db.First(&userDetail)

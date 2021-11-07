@@ -2038,7 +2038,7 @@ var doc = `{
             }
         },
         "/user-details/my": {
-            "post": {
+            "get": {
                 "security": [
                     {
                         "JWT": []
@@ -2505,7 +2505,6 @@ var doc = `{
             "required": [
                 "category_id",
                 "description",
-                "image",
                 "latitude",
                 "longitude",
                 "name",

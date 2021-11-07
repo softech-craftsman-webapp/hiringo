@@ -55,7 +55,6 @@ definitions:
     required:
     - category_id
     - description
-    - image
     - latitude
     - longitude
     - name
@@ -1808,7 +1807,7 @@ paths:
       tags:
       - user-detail
   /user-details/my:
-    post:
+    get:
       consumes:
       - application/json
       description: Get user's details
