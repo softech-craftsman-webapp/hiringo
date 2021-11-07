@@ -59,7 +59,7 @@ func UpdateUserDetail(ctx echo.Context) error {
 	}
 
 	userDetail := &model.UserDetail{
-		ID: ctx.Param("id"),
+		UserID: ctx.Param("id"),
 	}
 
 	db.First(&userDetail, "user_id = ?", claims.User.ID)
