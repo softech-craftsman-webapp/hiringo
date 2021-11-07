@@ -31,7 +31,7 @@ func GetMyRatings(ctx echo.Context) error {
 	db := config.GetDB()
 
 	ratings := []model.Rating{}
-	result := db.Where("submitted_by_id = ?", claims.User.ID).First(&ratings)
+	result := db.Where("user_id = ?", claims.User.ID).First(&ratings)
 
 	if result.Error != nil {
 		resp := &view.Response{
