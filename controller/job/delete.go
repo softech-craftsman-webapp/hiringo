@@ -70,7 +70,7 @@ func DeleteJob(ctx echo.Context) error {
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

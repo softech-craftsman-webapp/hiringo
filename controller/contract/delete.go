@@ -37,13 +37,13 @@ func DeleteContract(ctx echo.Context) error {
 		ID: ctx.Param("id"),
 	}
 
-	result := db.First(&contract, "id = ? AND  = ?", contract.ID, claims.User.ID)
+	result := db.First(&contract, "id = ? AND  professional_id = ?", contract.ID, claims.User.ID)
 
 	// db error
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -53,7 +53,7 @@ func DeleteContract(ctx echo.Context) error {
 	}
 
 	// check permission
-	if contract.RecruiterID != claims.User.ID {
+	if contract.ProfessionalID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
@@ -66,12 +66,42 @@ func DeleteContract(ctx echo.Context) error {
 		return view.ApiView(http.StatusForbidden, ctx, resp)
 	}
 
-	resultDelete := db.Delete(&contract)
+	// delete
+	job := model.Job{
+		ID: contract.JobID,
+	}
+	resultJob := db.First(&job, "id = ?", job.ID)
 
+	if resultJob.Error != nil {
+		resp := &view.Response{
+			Success: true,
+			Message: resultJob.Error.Error(),
+			Payload: nil,
+		}
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusInternalServerError, ctx, resp)
+	}
+
+	if job.IsContractSigned {
+		resp := &view.Response{
+			Success: true,
+			Message: "You are not permitted to delete contract. Contract is already signed.",
+			Payload: nil,
+		}
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusForbidden, ctx, resp)
+	}
+
+	// delete
+	resultDelete := db.Delete(&contract)
 	if resultDelete.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: resultDelete.Error.Error(),
 			Payload: nil,
 		}
 		// close db

@@ -169,7 +169,7 @@ func SearchJobs(ctx echo.Context) error {
 	if err != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: err.Error(),
 			Payload: nil,
 		}
 		// close db

@@ -47,7 +47,7 @@ func SignContract(ctx echo.Context) error {
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -65,7 +65,7 @@ func SignContract(ctx echo.Context) error {
 	if resultJob.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: resultJob.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -103,7 +103,7 @@ func SignContract(ctx echo.Context) error {
 	if resultContractUpdate.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: resultContractUpdate.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -115,7 +115,7 @@ func SignContract(ctx echo.Context) error {
 	if resultJobUpdate.Error != nil {
 		resp := &view.Response{
 			Success: true,
-			Message: "Internal Server Error",
+			Message: resultJobUpdate.Error.Error(),
 			Payload: nil,
 		}
 		// close db
