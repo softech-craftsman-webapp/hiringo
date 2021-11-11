@@ -38,7 +38,7 @@ func GetContractRatings(ctx echo.Context) error {
 	}
 
 	// get contract
-	result := db.Where("id = ?", contract.ID).Find(&contract)
+	result := db.Find(&contract)
 
 	if result.Error != nil {
 		resp := &view.Response{
@@ -52,8 +52,8 @@ func GetContractRatings(ctx echo.Context) error {
 		return view.ApiView(http.StatusInternalServerError, ctx, resp)
 	}
 
-	// check if user is permitted for contract
-	if contract.RecruiterID != claims.User.ID || contract.ProfessionalID != claims.User.ID {
+	// check if user has access to this contract
+	if contract.RecruiterID != claims.User.ID && contract.ProfessionalID != claims.User.ID {
 		resp := &view.Response{
 			Success: true,
 			Message: "Forbidden",
