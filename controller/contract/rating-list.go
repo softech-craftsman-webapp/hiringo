@@ -23,7 +23,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Param id path string true "Contract id"
-// @Success 200 {object} view.Response{payload=[]view.ContractRatingsView}
+// @Success 200 {object} view.Response{payload=view.ContractRatingsView}
 // @Failure 400,401,404,500 {object} view.Response
 // @Failure default {object} view.Response
 // @Router /contracts/{id}/ratings [get]
@@ -101,7 +101,7 @@ func GetContractRatings(ctx echo.Context) error {
 			RecruiterID:      contract.RecruiterID,
 			ProfessionalID:   contract.ProfessionalID,
 			IsRatingFinished: IsRatingFinished,
-			Ratings:          formatted_ratings,
+			RatingItems:      formatted_ratings,
 		},
 	}
 

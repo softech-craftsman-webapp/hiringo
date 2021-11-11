@@ -21,7 +21,7 @@ type ContractRatingsView struct {
 	RecruiterID      string       `json:"recruiter_id"`
 	ProfessionalID   string       `json:"professional_id"`
 	IsRatingFinished bool         `json:"is_rating_finished"`
-	Ratings          []RatingView `json:"ratings"`
+	RatingItems      []RatingView `json:"rating_items"`
 }
 
 func RatingModelToView(rating model.Rating) RatingView {
