@@ -762,10 +762,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "payload": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/view.ContractRatingsView"
-                                            }
+                                            "$ref": "#/definitions/view.ContractRatingsView"
                                         }
                                     }
                                 }
@@ -3178,7 +3175,7 @@ var doc = `{
                 "professional_id": {
                     "type": "string"
                 },
-                "ratings": {
+                "rating_items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/view.RatingView"

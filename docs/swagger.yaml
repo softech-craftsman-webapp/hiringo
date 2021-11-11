@@ -250,7 +250,7 @@ definitions:
         type: string
       professional_id:
         type: string
-      ratings:
+      rating_items:
         items:
           $ref: '#/definitions/view.RatingView'
         type: array
@@ -846,9 +846,7 @@ paths:
             - $ref: '#/definitions/view.Response'
             - properties:
                 payload:
-                  items:
-                    $ref: '#/definitions/view.ContractRatingsView'
-                  type: array
+                  $ref: '#/definitions/view.ContractRatingsView'
               type: object
         "400":
           description: Bad Request
