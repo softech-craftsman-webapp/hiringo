@@ -86,7 +86,14 @@ func RatingStatistics(ctx echo.Context) error {
 		Success: true,
 		Message: "Success",
 		Payload: &view.RatingStatistics{
-			LatestRating:    &view.RatingView{},
+			LatestRating: &view.RatingView{
+				ID:            latestRating.ID,
+				SubmittedByID: latestRating.SubmittedByID,
+				ContractID:    latestRating.ContractID,
+				UserID:        latestRating.UserID,
+				Points:        latestRating.Points,
+				Comment:       latestRating.Comment,
+			},
 			UserRatingCount: len(userRatings),
 			Total:           len(ratings),
 			Time:            latestRating.CreatedAt.Format("2006-01-02 15:04:05"),
