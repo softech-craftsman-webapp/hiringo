@@ -8,6 +8,7 @@ import (
 	job_controller "hiringo/controller/job"
 	location_controller "hiringo/controller/location"
 	rating_controller "hiringo/controller/rating"
+	statistics_controller "hiringo/controller/statistics"
 	transaction_controller "hiringo/controller/transaction"
 	user_detail_controller "hiringo/controller/userDetail"
 	_ "hiringo/docs"
@@ -73,8 +74,15 @@ func InitRoutes(app *echo.Echo) {
 	// Contracts
 	access_route.GET("/contracts/my", contract_controller.GetJobContracts)
 	access_route.GET("/contracts/:id", contract_controller.GetContractDetail)
+	access_route.GET("/contracts/:id/ratings", contract_controller.GetContractRatings)
 	access_route.POST("/contracts/new", contract_controller.CreateContract)
 	access_route.POST("/contracts/:id/sign", contract_controller.SignContract)
 	access_route.PUT("/contracts/:id", contract_controller.UpdateContractDetail)
 	access_route.DELETE("/contracts/:id", contract_controller.DeleteContract)
+
+	// Statistics
+	access_route.GET("/statistics/category", statistics_controller.CategoryStatistics)
+	access_route.GET("/statistics/job", statistics_controller.JobStatistics)
+	access_route.GET("/statistics/rating", statistics_controller.RatingStatistics)
+	access_route.GET("/statistics/transaction", statistics_controller.TransactionStatistics)
 }

@@ -215,6 +215,15 @@ definitions:
       id:
         type: string
     type: object
+  view.CategoryStatistics:
+    properties:
+      popular_item:
+        $ref: '#/definitions/view.CategoryView'
+      time:
+        type: string
+      total:
+        type: integer
+    type: object
   view.CategoryView:
     properties:
       created_by_id:
@@ -229,6 +238,23 @@ definitions:
   view.ContractEmptyView:
     properties:
       id:
+        type: string
+    type: object
+  view.ContractRatingsView:
+    properties:
+      contract_id:
+        type: string
+      is_rating_finished:
+        type: boolean
+      job_id:
+        type: string
+      professional_id:
+        type: string
+      ratings:
+        items:
+          $ref: '#/definitions/view.RatingView'
+        type: array
+      recruiter_id:
         type: string
     type: object
   view.ContractView:
@@ -272,6 +298,17 @@ definitions:
         type: array
       pagination:
         $ref: '#/definitions/paginator.Pagination'
+    type: object
+  view.JobStatistics:
+    properties:
+      latest_job:
+        $ref: '#/definitions/view.JobView'
+      time:
+        type: string
+      total:
+        type: integer
+      user_job_count:
+        type: integer
     type: object
   view.JobView:
     properties:
@@ -362,6 +399,17 @@ definitions:
       name:
         type: string
     type: object
+  view.RatingStatistics:
+    properties:
+      latest_rating:
+        $ref: '#/definitions/view.RatingView'
+      time:
+        type: string
+      total:
+        type: integer
+      user_rating_count:
+        type: integer
+    type: object
   view.RatingView:
     properties:
       comment:
@@ -384,6 +432,17 @@ definitions:
       payload: {}
       success:
         type: boolean
+    type: object
+  view.TransactionStatistics:
+    properties:
+      latest_transaction:
+        $ref: '#/definitions/view.TransactionView'
+      time:
+        type: string
+      total:
+        type: integer
+      user_transaction_count:
+        type: integer
     type: object
   view.TransactionView:
     properties:
@@ -752,6 +811,55 @@ paths:
             $ref: '#/definitions/view.Response'
         "403":
           description: Forbidden
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - contract
+  /contracts/{id}/ratings:
+    get:
+      consumes:
+      - application/json
+      description: Get Contract ratings
+      parameters:
+      - description: Contract id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/view.ContractRatingsView'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/view.Response'
         "500":
@@ -1511,6 +1619,170 @@ paths:
       - JWT: []
       tags:
       - rating
+  /statistics/category:
+    get:
+      consumes:
+      - application/json
+      description: Category statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.CategoryStatistics'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - statistics
+  /statistics/job:
+    get:
+      consumes:
+      - application/json
+      description: Job statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.JobStatistics'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - statistics
+  /statistics/rating:
+    get:
+      consumes:
+      - application/json
+      description: Rating statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.RatingStatistics'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - statistics
+  /statistics/transaction:
+    get:
+      consumes:
+      - application/json
+      description: Transaction statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.TransactionStatistics'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - statistics
   /transactions/{id}:
     get:
       consumes:

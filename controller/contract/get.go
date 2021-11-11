@@ -38,8 +38,8 @@ func GetContractDetail(ctx echo.Context) error {
 
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Contract not found",
+			Success: false,
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

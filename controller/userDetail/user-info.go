@@ -39,8 +39,8 @@ func MyUserDetail(ctx echo.Context) error {
 
 	if userDetail_result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "User detail not found",
+			Success: false,
+			Message: userDetail_result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

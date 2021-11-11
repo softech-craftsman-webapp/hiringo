@@ -46,7 +46,7 @@ func SignContract(ctx echo.Context) error {
 	*/
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: result.Error.Error(),
 			Payload: nil,
 		}
@@ -64,7 +64,7 @@ func SignContract(ctx echo.Context) error {
 
 	if resultJob.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: resultJob.Error.Error(),
 			Payload: nil,
 		}
@@ -102,7 +102,7 @@ func SignContract(ctx echo.Context) error {
 
 	if resultContractUpdate.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: resultContractUpdate.Error.Error(),
 			Payload: nil,
 		}
@@ -114,7 +114,7 @@ func SignContract(ctx echo.Context) error {
 
 	if resultJobUpdate.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: resultJobUpdate.Error.Error(),
 			Payload: nil,
 		}

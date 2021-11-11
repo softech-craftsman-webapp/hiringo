@@ -36,7 +36,7 @@ func GetMyTransactions(ctx echo.Context) error {
 	if result.Error != nil {
 		resp := &view.Response{
 			Success: false,
-			Message: "Transactions not found",
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

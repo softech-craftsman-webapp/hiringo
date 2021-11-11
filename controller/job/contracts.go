@@ -41,8 +41,8 @@ func GetJobContracts(ctx echo.Context) error {
 
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Job not found",
+			Success: false,
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -61,8 +61,8 @@ func GetJobContracts(ctx echo.Context) error {
 
 	if resultContracts.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Contracts not found",
+			Success: false,
+			Message: resultContracts.Error.Error(),
 			Payload: nil,
 		}
 		// close db

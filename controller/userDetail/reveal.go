@@ -62,8 +62,8 @@ func RevealUserDetail(ctx echo.Context) error {
 	userDetail_result := db.First(&userDetail)
 	if userDetail_result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "User detail not found",
+			Success: false,
+			Message: userDetail_result.Error.Error(),
 			Payload: nil,
 		}
 		// close db
@@ -79,8 +79,8 @@ func RevealUserDetail(ctx echo.Context) error {
 	contract_result := db.First(&contract)
 	if contract_result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Contract not found",
+			Success: false,
+			Message: contract_result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

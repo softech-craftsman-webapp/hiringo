@@ -42,7 +42,7 @@ func DeleteContract(ctx echo.Context) error {
 	// db error
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: result.Error.Error(),
 			Payload: nil,
 		}
@@ -74,7 +74,7 @@ func DeleteContract(ctx echo.Context) error {
 
 	if resultJob.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: resultJob.Error.Error(),
 			Payload: nil,
 		}
@@ -100,7 +100,7 @@ func DeleteContract(ctx echo.Context) error {
 	resultDelete := db.Delete(&contract)
 	if resultDelete.Error != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: resultDelete.Error.Error(),
 			Payload: nil,
 		}

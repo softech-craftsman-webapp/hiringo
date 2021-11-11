@@ -32,12 +32,13 @@ func GetRatingDetail(ctx echo.Context) error {
 	rating := model.Rating{
 		ID: ctx.Param("id"),
 	}
+
 	result := db.First(&rating)
 
 	if result.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Rating not found",
+			Success: false,
+			Message: result.Error.Error(),
 			Payload: nil,
 		}
 		// close db

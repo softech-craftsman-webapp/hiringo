@@ -168,7 +168,7 @@ func SearchJobs(ctx echo.Context) error {
 	*/
 	if err != nil {
 		resp := &view.Response{
-			Success: true,
+			Success: false,
 			Message: err.Error(),
 			Payload: nil,
 		}

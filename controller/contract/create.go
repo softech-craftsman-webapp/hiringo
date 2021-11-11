@@ -86,8 +86,8 @@ func CreateContract(ctx echo.Context) error {
 
 	if resultJob.Error != nil {
 		resp := &view.Response{
-			Success: true,
-			Message: "Job not found",
+			Success: false,
+			Message: resultJob.Error.Error(),
 			Payload: nil,
 		}
 		// close db
