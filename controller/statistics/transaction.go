@@ -33,19 +33,7 @@ func TransactionStatistics(ctx echo.Context) error {
 
 	// get user transactions
 	userTransactions := []model.Transaction{}
-	result := db.Where("user_id = ?", claims.User.ID).Find(&userTransactions)
-
-	if result.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: result.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("user_id = ?", claims.User.ID).Find(&userTransactions)
 
 	// transactions
 	transactions := []model.Transaction{}

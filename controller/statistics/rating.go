@@ -33,19 +33,7 @@ func RatingStatistics(ctx echo.Context) error {
 
 	// get user ratings
 	userRatings := []model.Rating{}
-	result := db.Where("user_id = ?", claims.User.ID).Find(&userRatings)
-
-	if result.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: result.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("user_id = ?", claims.User.ID).Find(&userRatings)
 
 	// ratings
 	ratings := []model.Rating{}
