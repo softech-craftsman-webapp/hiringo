@@ -2391,7 +2391,7 @@ var doc = `{
                 }
             }
         },
-        "/user-details": {
+        "/user-details/edit": {
             "put": {
                 "security": [
                     {

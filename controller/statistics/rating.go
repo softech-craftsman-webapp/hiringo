@@ -2,7 +2,7 @@ package statistics
 
 import (
 	config "hiringo/config"
-	"hiringo/model"
+	model "hiringo/model"
 	view "hiringo/view"
 	"net/http"
 
@@ -68,7 +68,7 @@ func RatingStatistics(ctx echo.Context) error {
 		UserID: claims.User.ID,
 	}
 
-	resultLatestRating := db.Order("created_at desc").First(&latestRating)
+	resultLatestRating := db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestRating)
 	if resultLatestRating.Error != nil {
 		resp := &view.Response{
 			Success: false,

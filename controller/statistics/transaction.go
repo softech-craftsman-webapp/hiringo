@@ -2,7 +2,7 @@ package statistics
 
 import (
 	config "hiringo/config"
-	"hiringo/model"
+	model "hiringo/model"
 	view "hiringo/view"
 	"net/http"
 
@@ -64,9 +64,11 @@ func TransactionStatistics(ctx echo.Context) error {
 	}
 
 	// get latest transaction
-	latestTransaction := model.Transaction{}
+	latestTransaction := model.Transaction{
+		UserID: claims.User.ID,
+	}
 
-	resultLatestTransaction := db.Order("created_at desc").First(&latestTransaction)
+	resultLatestTransaction := db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestTransaction)
 	if resultLatestTransaction.Error != nil {
 		resp := &view.Response{
 			Success: false,

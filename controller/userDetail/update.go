@@ -34,7 +34,7 @@ type UpdateUserDetailRequest struct {
 // @Success 200 {object} view.Response{payload=view.UserDetailEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details [put]
+// @Router /user-details/edit [put]
 // @Security JWT
 func UpdateUserDetail(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)

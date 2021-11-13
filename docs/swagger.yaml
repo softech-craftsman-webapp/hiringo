@@ -1919,54 +1919,6 @@ paths:
       - JWT: []
       tags:
       - transaction
-  /user-details:
-    put:
-      consumes:
-      - application/json
-      description: Update user details
-      parameters:
-      - description: User details
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/userDetail.UpdateUserDetailRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/view.Response'
-            - properties:
-                payload:
-                  $ref: '#/definitions/view.UserDetailEmptyView'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/view.Response'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/view.Response'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/view.Response'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/view.Response'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/view.Response'
-      security:
-      - JWT: []
-      tags:
-      - user-detail
   /user-details/{id}/rating:
     get:
       consumes:
@@ -2057,6 +2009,54 @@ paths:
             $ref: '#/definitions/view.Response'
         "404":
           description: Not Found
+          schema:
+            $ref: '#/definitions/view.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/view.Response'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/view.Response'
+      security:
+      - JWT: []
+      tags:
+      - user-detail
+  /user-details/edit:
+    put:
+      consumes:
+      - application/json
+      description: Update user details
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/userDetail.UpdateUserDetailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/view.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/view.UserDetailEmptyView'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/view.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/view.Response'
+        "403":
+          description: Forbidden
           schema:
             $ref: '#/definitions/view.Response'
         "500":

@@ -83,7 +83,7 @@ func JobStatistics(ctx echo.Context) error {
 	// user jobs
 	userJobs := []model.Job{}
 
-	resultUserJobs := db.Find(&userJobs).Where("user_id = ?", claims.User.ID)
+	resultUserJobs := db.Where("user_id = ?", claims.User.ID).Find(&userJobs)
 	if resultUserJobs.Error != nil {
 		resp := &view.Response{
 			Success: false,
