@@ -69,7 +69,7 @@ func InitRoutes(app *echo.Echo) {
 	access_route.GET("/user-details/:id/rating", user_detail_controller.GetUserRating)
 	access_route.POST("/user-details/:id/reveal", user_detail_controller.RevealUserDetail)
 	access_route.POST("/user-details/new", user_detail_controller.CreateUserDetail)
-	access_route.PUT("/user-details/:id", user_detail_controller.UpdateUserDetail)
+	access_route.PUT("/user-details", user_detail_controller.UpdateUserDetail)
 
 	// Contracts
 	access_route.GET("/contracts/my", contract_controller.GetJobContracts)

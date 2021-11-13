@@ -27,7 +27,7 @@ type RevealUserDetailRequest struct {
 // @Description Get user details by contract id
 // @Accept  json
 // @Produce  json
-// @Param id path string true "User Detail id"
+// @Param id path string true "User id"
 // @Param user body RevealUserDetailRequest true "Contract details"
 // @Success 200 {object} view.Response{payload=view.UserDetailView}
 // @Failure 400,401,403,404,500 {object} view.Response
@@ -56,7 +56,7 @@ func RevealUserDetail(ctx echo.Context) error {
 	}
 
 	userDetail := &model.UserDetail{
-		ID: ctx.Param("id"),
+		UserID: ctx.Param("id"),
 	}
 
 	userDetail_result := db.First(&userDetail)

@@ -30,12 +30,11 @@ type UpdateUserDetailRequest struct {
 // @Description Update user details
 // @Accept  json
 // @Produce  json
-// @Param id path string true "User Detail id"
 // @Param user body UpdateUserDetailRequest true "User details"
 // @Success 200 {object} view.Response{payload=view.UserDetailEmptyView}
 // @Failure 400,401,403,500 {object} view.Response
 // @Failure default {object} view.Response
-// @Router /user-details/{id} [put]
+// @Router /user-details [put]
 // @Security JWT
 func UpdateUserDetail(ctx echo.Context) error {
 	claims := ctx.Get("user").(*jwt.Token).Claims.(*view.JwtCustomClaims)
@@ -59,7 +58,7 @@ func UpdateUserDetail(ctx echo.Context) error {
 	}
 
 	userDetail := &model.UserDetail{
-		UserID: ctx.Param("id"),
+		UserID: claims.User.ID,
 	}
 
 	db.First(&userDetail, "user_id = ?", claims.User.ID)
