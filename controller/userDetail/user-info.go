@@ -35,7 +35,7 @@ func MyUserDetail(ctx echo.Context) error {
 		UserID: claims.User.ID,
 	}
 
-	userDetail_result := db.First(&userDetail)
+	userDetail_result := db.Where("user_id = ?", claims.User.ID).First(&userDetail)
 
 	if userDetail_result.Error != nil {
 		resp := &view.Response{

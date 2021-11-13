@@ -49,7 +49,7 @@ func CategoryStatistics(ctx echo.Context) error {
 		ID: job.CategoryID,
 	}
 
-	resultCategory := db.First(&category)
+	resultCategory := db.Where("id = ?", category.ID).First(&category)
 	if resultCategory.Error != nil {
 		resp := &view.Response{
 			Success: false,

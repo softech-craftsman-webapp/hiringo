@@ -34,7 +34,7 @@ func GetContractDetail(ctx echo.Context) error {
 	contract := model.Contract{
 		ID: ctx.Param("id"),
 	}
-	result := db.First(&contract)
+	result := db.Where("id = ?", contract.ID).First(&contract)
 
 	if result.Error != nil {
 		resp := &view.Response{

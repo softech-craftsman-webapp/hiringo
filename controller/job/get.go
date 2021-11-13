@@ -32,7 +32,7 @@ func GetJobDetail(ctx echo.Context) error {
 	job := model.Job{
 		ID: ctx.Param("id"),
 	}
-	result := db.First(&job)
+	result := db.Where("id ? = ", job.ID).First(&job)
 
 	if result.Error != nil {
 		resp := &view.Response{

@@ -32,7 +32,7 @@ func GetTransactionDetail(ctx echo.Context) error {
 	transaction := model.Transaction{
 		ID: ctx.Param("id"),
 	}
-	result := db.First(&transaction)
+	result := db.Where("id = ?", transaction.ID).First(&transaction)
 
 	if result.Error != nil {
 		resp := &view.Response{

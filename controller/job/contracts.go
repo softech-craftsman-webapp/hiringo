@@ -37,7 +37,7 @@ func GetJobContracts(ctx echo.Context) error {
 	}
 
 	var contracts []model.Contract
-	result := db.First(&job)
+	result := db.Where("id = ?", job.ID).First(&job)
 
 	if result.Error != nil {
 		resp := &view.Response{

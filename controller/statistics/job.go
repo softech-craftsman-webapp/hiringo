@@ -51,7 +51,7 @@ func JobStatistics(ctx echo.Context) error {
 		ID: contract.JobID,
 	}
 
-	resultJob := db.First(&job)
+	resultJob := db.Where("id = ?", job.ID).First(&job)
 	if resultJob.Error != nil {
 		resp := &view.Response{
 			Success: false,

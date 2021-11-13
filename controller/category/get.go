@@ -32,7 +32,7 @@ func GetCategoryDetail(ctx echo.Context) error {
 	category := model.Category{
 		ID: ctx.Param("id"),
 	}
-	result := db.First(&category)
+	result := db.Where("id = ?", category.ID).First(&category)
 
 	if result.Error != nil {
 		resp := &view.Response{

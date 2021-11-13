@@ -59,7 +59,7 @@ func RevealUserDetail(ctx echo.Context) error {
 		UserID: ctx.Param("id"),
 	}
 
-	userDetail_result := db.First(&userDetail)
+	userDetail_result := db.Where("user_id = ?", userDetail.UserID).First(&userDetail)
 	if userDetail_result.Error != nil {
 		resp := &view.Response{
 			Success: false,
@@ -76,7 +76,7 @@ func RevealUserDetail(ctx echo.Context) error {
 		ID: req.ContractID,
 	}
 
-	contract_result := db.First(&contract)
+	contract_result := db.Where("id = ?", contract.ID).First(&contract)
 	if contract_result.Error != nil {
 		resp := &view.Response{
 			Success: false,

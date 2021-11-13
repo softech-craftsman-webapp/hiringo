@@ -33,7 +33,7 @@ func GetRatingDetail(ctx echo.Context) error {
 		ID: ctx.Param("id"),
 	}
 
-	result := db.First(&rating)
+	result := db.Where("id = ?", rating.ID).First(&rating)
 
 	if result.Error != nil {
 		resp := &view.Response{
