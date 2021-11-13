@@ -33,68 +33,23 @@ func JobStatistics(ctx echo.Context) error {
 	contract := model.Contract{}
 
 	// get the most popular job which has the most contracts
-	result := db.Table("contracts").Select("job_id, count(*) as total").Group("job_id").Order("total desc").Limit(1).Scan(&contract)
-	if result.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: result.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Table("contracts").Select("job_id, count(*) as total").Group("job_id").Order("total desc").Limit(1).Scan(&contract)
 
 	// get job
 	job := model.Job{
 		ID: contract.JobID,
 	}
 
-	resultJob := db.Where("id = ?", job.ID).First(&job)
-	if resultJob.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultJob.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("id = ?", job.ID).First(&job)
 
 	// get all jobs
 	jobs := []model.Job{}
-	resultJobs := db.Find(&jobs)
-
-	if resultJobs.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultJobs.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Find(&jobs)
 
 	// user jobs
 	userJobs := []model.Job{}
 
-	resultUserJobs := db.Where("user_id = ?", claims.User.ID).Find(&userJobs)
-	if resultUserJobs.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultUserJobs.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("user_id = ?", claims.User.ID).Find(&userJobs)
 
 	// result
 	resp := &view.Response{

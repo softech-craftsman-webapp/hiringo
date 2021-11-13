@@ -31,52 +31,18 @@ func CategoryStatistics(ctx echo.Context) error {
 	job := model.Job{}
 
 	// get the most popular categories from the jobs table
-	result := db.Table("jobs").Select("category_id, count(*) as total").Group("category_id").Order("total desc").Limit(1).Scan(&job)
-	if result.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: result.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Table("jobs").Select("category_id, count(*) as total").Group("category_id").Order("total desc").Limit(1).Scan(&job)
 
 	// most popular category
 	category := model.Category{
 		ID: job.CategoryID,
 	}
 
-	resultCategory := db.Where("id = ?", category.ID).First(&category)
-	if resultCategory.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultCategory.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("id = ?", category.ID).First(&category)
 
 	// get total list number of the categories
 	categories := []model.Category{}
-	resultCategories := db.Find(&categories)
-
-	if resultCategories.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultCategories.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Find(&categories)
 
 	// result
 	resp := &view.Response{

@@ -37,37 +37,14 @@ func TransactionStatistics(ctx echo.Context) error {
 
 	// transactions
 	transactions := []model.Transaction{}
-	resultTransactions := db.Find(&transactions)
-
-	if resultTransactions.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultTransactions.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Find(&transactions)
 
 	// get latest transaction
 	latestTransaction := model.Transaction{
 		UserID: claims.User.ID,
 	}
 
-	resultLatestTransaction := db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestTransaction)
-	if resultLatestTransaction.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultLatestTransaction.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestTransaction)
 
 	// result
 	resp := &view.Response{

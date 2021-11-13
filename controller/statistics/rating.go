@@ -37,37 +37,14 @@ func RatingStatistics(ctx echo.Context) error {
 
 	// ratings
 	ratings := []model.Rating{}
-	resultRatings := db.Find(&ratings)
-
-	if resultRatings.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultRatings.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Find(&ratings)
 
 	// get latest rating
 	latestRating := model.Rating{
 		UserID: claims.User.ID,
 	}
 
-	resultLatestRating := db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestRating)
-	if resultLatestRating.Error != nil {
-		resp := &view.Response{
-			Success: false,
-			Message: resultLatestRating.Error.Error(),
-			Payload: nil,
-		}
-		// close db
-		config.CloseDB(db).Close()
-
-		return view.ApiView(http.StatusNotFound, ctx, resp)
-	}
+	db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestRating)
 
 	// result
 	resp := &view.Response{
