@@ -2930,34 +2930,19 @@ var doc = `{
         "job.UpdateJobRequest": {
             "type": "object",
             "required": [
-                "category_id",
-                "descriptions",
-                "latitude",
-                "longitude",
+                "description",
+                "is_equipment_required",
                 "name",
-                "transaction_id",
                 "valid_until"
             ],
             "properties": {
-                "category_id": {
-                    "type": "string"
-                },
-                "descriptions": {
+                "description": {
                     "type": "string"
                 },
                 "is_equipment_required": {
                     "type": "boolean"
                 },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
                 "name": {
-                    "type": "string"
-                },
-                "transaction_id": {
                     "type": "string"
                 },
                 "valid_until": {

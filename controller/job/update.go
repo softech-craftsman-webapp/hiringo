@@ -12,14 +12,10 @@ import (
 )
 
 type UpdateJobRequest struct {
-	Name                string  `json:"name" validate:"required"`
-	Description         string  `json:"descriptions" validate:"required"`
-	IsEquipmentRequired bool    `json:"is_equipment_required"`
-	ValidUntil          string  `json:"valid_until" validate:"required"`
-	CategoryID          string  `json:"category_id" validate:"required"`
-	TransactionID       string  `json:"transaction_id" validate:"required"`
-	Latitude            float64 `json:"latitude" validate:"required,numeric"`
-	Longitude           float64 `json:"longitude" validate:"required,numeric"`
+	Name                string `json:"name" validate:"required"`
+	Description         string `json:"description" validate:"required"`
+	IsEquipmentRequired bool   `json:"is_equipment_required" validate:"required"`
+	ValidUntil          string `json:"valid_until" validate:"required"`
 }
 
 /*
@@ -97,6 +93,19 @@ func UpdateJob(ctx echo.Context) error {
 		return view.ApiView(http.StatusForbidden, ctx, resp)
 	}
 
+	if job.IsContractSigned {
+		resp := &view.Response{
+			Success: true,
+			Message: "Contract is already signed",
+			Payload: nil,
+		}
+
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusForbidden, ctx, resp)
+	}
+
 	/*
 	   |--------------------------------------------------------------------------
 	   | Check rquired fields
@@ -107,10 +116,6 @@ func UpdateJob(ctx echo.Context) error {
 		Description:         req.Description,
 		IsEquipmentRequired: req.IsEquipmentRequired,
 		ValidUntil:          validUntil,
-		CategoryID:          req.CategoryID,
-		TransactionID:       req.TransactionID,
-		Latitude:            req.Latitude,
-		Longitude:           req.Longitude,
 	})
 
 	resp := &view.Response{

@@ -20,8 +20,8 @@ type SeachJobRequest struct {
 	Description         string  `json:"description"`
 	CategoryID          string  `json:"category_id"`
 	IsEquipmentRequired bool    `json:"is_equipment_required"`
-	Latitude            float64 `json:"latitude" validate:"required"`
-	Longitude           float64 `json:"longitude" validate:"required"`
+	Latitude            float64 `json:"latitude" validate:"required,numeric"`
+	Longitude           float64 `json:"longitude" validate:"required,numeric"`
 }
 
 /*

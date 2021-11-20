@@ -52,6 +52,19 @@ func DeleteJob(ctx echo.Context) error {
 		return view.ApiView(http.StatusForbidden, ctx, resp)
 	}
 
+	if job.IsContractSigned {
+		resp := &view.Response{
+			Success: true,
+			Message: "Contract is already signed",
+			Payload: nil,
+		}
+
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusForbidden, ctx, resp)
+	}
+
 	result := db.Delete(&job)
 
 	resp := &view.Response{
