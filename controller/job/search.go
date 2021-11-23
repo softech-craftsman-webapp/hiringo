@@ -89,7 +89,7 @@ func SearchJobs(ctx echo.Context) error {
 				Where("category_id = ?", req.CategoryID).
 				Where("is_equipment_required = ?", req.IsEquipmentRequired).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	case req.Name != "" && req.CategoryID != "" && req.IsEquipmentRequired:
@@ -101,7 +101,7 @@ func SearchJobs(ctx echo.Context) error {
 				Where("category_id = ?", req.CategoryID).
 				Where("is_equipment_required = ?", req.IsEquipmentRequired).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	case req.Name != "" && req.Description != "" && req.CategoryID != "":
@@ -113,7 +113,7 @@ func SearchJobs(ctx echo.Context) error {
 				Where("description LIKE ?", helper.Format("%{{.}}%", req.Description)).
 				Where("category_id = ?", req.CategoryID).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	case req.Name != "" && req.CategoryID != "":
@@ -124,7 +124,7 @@ func SearchJobs(ctx echo.Context) error {
 			DB: db.Where("name LIKE ?", helper.Format("%{{.}}%", req.Name)).
 				Where("category_id = ?", req.CategoryID).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	case req.Name != "" && req.IsEquipmentRequired:
@@ -135,7 +135,7 @@ func SearchJobs(ctx echo.Context) error {
 			DB: db.Where("name LIKE ?", helper.Format("%{{.}}%", req.Name)).
 				Where("is_equipment_required = ?", req.IsEquipmentRequired).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	case req.Name != "" && req.Description != "":
@@ -146,7 +146,7 @@ func SearchJobs(ctx echo.Context) error {
 			DB: db.Where("name LIKE ?", helper.Format("%{{.}}%", req.Name)).
 				Where("description LIKE ?", helper.Format("%{{.}}%", req.Description)).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	default:
@@ -156,7 +156,7 @@ func SearchJobs(ctx echo.Context) error {
 		jobList.Pagination, err = paginator.Pages(&paginator.Param{
 			DB: db.Where("name LIKE ?", helper.Format("%{{.}}%", req.Name)).
 				Where("is_contract_signed != true").
-				Order("latitude desc, longitude desc, is_premium"),
+				Order("latitude desc, longitude desc, is_premium, created_at DESC"),
 			Paging: &paging,
 		}, &jobList.Items)
 	}

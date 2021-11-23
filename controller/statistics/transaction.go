@@ -33,7 +33,7 @@ func TransactionStatistics(ctx echo.Context) error {
 
 	// get user transactions
 	userTransactions := []model.Transaction{}
-	db.Where("user_id = ?", claims.User.ID).Find(&userTransactions)
+	db.Where("user_id = ?", claims.User.ID).Find(&userTransactions).Order("created_at DESC")
 
 	// transactions
 	transactions := []model.Transaction{}

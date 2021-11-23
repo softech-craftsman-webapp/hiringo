@@ -44,12 +44,12 @@ func JobStatistics(ctx echo.Context) error {
 
 	// get all jobs
 	jobs := []model.Job{}
-	db.Find(&jobs)
+	db.Find(&jobs).Order("created_at DESC")
 
 	// user jobs
 	userJobs := []model.Job{}
 
-	db.Where("user_id = ?", claims.User.ID).Find(&userJobs)
+	db.Where("user_id = ?", claims.User.ID).Find(&userJobs).Order("created_at DESC")
 
 	// result
 	resp := &view.Response{

@@ -29,7 +29,7 @@ func GetAllCategories(ctx echo.Context) error {
 	db := config.GetDB()
 
 	categories := []model.Category{}
-	result := db.Find(&categories)
+	result := db.Find(&categories).Order("created_at DESC")
 
 	if result.Error != nil {
 		resp := &view.Response{

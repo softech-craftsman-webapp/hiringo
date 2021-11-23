@@ -96,6 +96,18 @@ func CreateContract(ctx echo.Context) error {
 		return view.ApiView(http.StatusNotFound, ctx, resp)
 	}
 
+	if job.IsContractSigned {
+		resp := &view.Response{
+			Success: false,
+			Message: "Contract already signed",
+			Payload: nil,
+		}
+		// close db
+		config.CloseDB(db).Close()
+
+		return view.ApiView(http.StatusBadRequest, ctx, resp)
+	}
+
 	contract := &model.Contract{
 		StartTime:                startTime,
 		EndTime:                  endTime,

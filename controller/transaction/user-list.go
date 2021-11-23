@@ -31,7 +31,7 @@ func GetMyTransactions(ctx echo.Context) error {
 	db := config.GetDB()
 
 	transactions := []model.Transaction{}
-	result := db.Where("user_id = ?", claims.User.ID).Find(&transactions)
+	result := db.Where("user_id = ?", claims.User.ID).Find(&transactions).Order("created_at DESC")
 
 	if result.Error != nil {
 		resp := &view.Response{

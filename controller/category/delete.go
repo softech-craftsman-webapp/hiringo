@@ -37,7 +37,7 @@ func DeleteCategory(ctx echo.Context) error {
 		ID: ctx.Param("id"),
 	}
 
-	db.First(&category, "id = ? AND user_id = ?", category.ID, claims.User.ID)
+	db.First(&category, "id = ? AND created_by_id = ?", category.ID, claims.User.ID)
 
 	if category.CreatedByID != claims.User.ID {
 		resp := &view.Response{

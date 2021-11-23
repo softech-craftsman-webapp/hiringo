@@ -32,7 +32,7 @@ func GetJobContracts(ctx echo.Context) error {
 	db := config.GetDB()
 
 	var contracts []model.Contract
-	result := db.Where("professional_id = ?", claims.User.ID).Find(&contracts)
+	result := db.Where("professional_id = ?", claims.User.ID).Find(&contracts).Order("created_at DESC")
 
 	if result.Error != nil {
 		resp := &view.Response{

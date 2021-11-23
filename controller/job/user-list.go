@@ -35,11 +35,11 @@ func GetMyJobs(ctx echo.Context) error {
 	jobIDs := []string{}
 
 	// get job ids which user applied
-	db.Model(&model.Contract{}).Where("professional_id = ?", claims.User.ID).Pluck("job_id", &jobIDs)
-	db.Model(&model.Job{}).Where("id IN (?)", jobIDs).Find(&appliedJob)
+	db.Model(&model.Contract{}).Where("professional_id = ?", claims.User.ID).Pluck("job_id", &jobIDs).Order("created_at DESC")
+	db.Model(&model.Job{}).Where("id IN (?)", jobIDs).Find(&appliedJob).Order("created_at DESC")
 
 	// get created jobs
-	db.Model(&model.Job{}).Where("user_id = ?", claims.User.ID).Find(&createdJob)
+	db.Model(&model.Job{}).Where("user_id = ?", claims.User.ID).Find(&createdJob).Order("created_at DESC")
 
 	// TODO: It can be optimized
 	var formatted_createdJob []view.JobView

@@ -33,7 +33,7 @@ func RatingStatistics(ctx echo.Context) error {
 
 	// get user ratings
 	userRatings := []model.Rating{}
-	db.Where("user_id = ?", claims.User.ID).Find(&userRatings)
+	db.Where("user_id = ?", claims.User.ID).Find(&userRatings).Order("created_at DESC")
 
 	// ratings
 	ratings := []model.Rating{}

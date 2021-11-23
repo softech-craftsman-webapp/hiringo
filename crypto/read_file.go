@@ -1,17 +1,22 @@
 package crypto
 
 import (
-    "fmt"
-    "io/ioutil"
+	"io"
+	"os"
+	"strings"
 )
 
 func ReadFile(filePath string) string {
-	data, err := ioutil.ReadFile(filePath)
+	f, e := os.Open(filePath)
 
-    if err != nil {
-        fmt.Println("File reading error", err)
-        return ""
-    }
-    
-	return string(data)
+	if e != nil {
+		panic(e.Error())
+	}
+
+	defer f.Close()
+
+	b := new(strings.Builder)
+	io.Copy(b, f)
+
+	return b.String()
 }
