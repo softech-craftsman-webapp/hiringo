@@ -42,7 +42,7 @@ func CategoryStatistics(ctx echo.Context) error {
 
 	// get total list number of the categories
 	categories := []model.Category{}
-	db.Find(&categories).Order("created_at DESC")
+	db.Find(&categories).Order("created_at")
 
 	// result
 	resp := &view.Response{

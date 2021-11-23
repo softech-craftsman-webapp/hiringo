@@ -33,7 +33,7 @@ func TransactionStatistics(ctx echo.Context) error {
 
 	// get user transactions
 	userTransactions := []model.Transaction{}
-	db.Where("user_id = ?", claims.User.ID).Find(&userTransactions).Order("created_at DESC")
+	db.Where("user_id = ?", claims.User.ID).Find(&userTransactions).Order("created_at")
 
 	// transactions
 	transactions := []model.Transaction{}
@@ -44,7 +44,7 @@ func TransactionStatistics(ctx echo.Context) error {
 		UserID: claims.User.ID,
 	}
 
-	db.Where("user_id = ?", claims.User.ID).Order("created_at desc").First(&latestTransaction)
+	db.Where("user_id = ?", claims.User.ID).Order("created_at").First(&latestTransaction)
 
 	// result
 	resp := &view.Response{

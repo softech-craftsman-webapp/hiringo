@@ -43,7 +43,7 @@ func GetUserRating(ctx echo.Context) error {
 	}
 
 	ratings := []model.Rating{}
-	result := db.Where("user_id = ?", userID).Find(&ratings).Order("created_at DESC")
+	result := db.Where("user_id = ?", userID).Find(&ratings).Order("created_at")
 
 	if result.Error != nil {
 		resp := &view.Response{

@@ -38,7 +38,7 @@ func GetContractRatings(ctx echo.Context) error {
 	}
 
 	// get contract
-	result := db.Find(&contract).Order("created_at DESC")
+	result := db.Find(&contract).Order("created_at")
 
 	if result.Error != nil {
 		resp := &view.Response{
@@ -66,7 +66,7 @@ func GetContractRatings(ctx echo.Context) error {
 	}
 
 	// get ratings
-	resultRatings := db.Where("contract_id = ?", contract.ID).Find(&ratings).Order("created_at DESC")
+	resultRatings := db.Where("contract_id = ?", contract.ID).Find(&ratings).Order("created_at")
 
 	if resultRatings.Error != nil {
 		resp := &view.Response{

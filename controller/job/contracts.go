@@ -54,9 +54,9 @@ func GetJobContracts(ctx echo.Context) error {
 	// check if user is the owner of the job contracts
 	var resultContracts *gorm.DB
 	if job.UserID == claims.User.ID {
-		resultContracts = db.Where("recruiter_id = ? AND job_id = ?", claims.User.ID, job.ID).Find(&contracts).Order("created_at DESC")
+		resultContracts = db.Where("recruiter_id = ? AND job_id = ?", claims.User.ID, job.ID).Find(&contracts).Order("created_at")
 	} else {
-		resultContracts = db.Where("professional_id = ? AND job_id = ?", claims.User.ID, job.ID).Find(&contracts).Order("created_at DESC")
+		resultContracts = db.Where("professional_id = ? AND job_id = ?", claims.User.ID, job.ID).Find(&contracts).Order("created_at")
 	}
 
 	if resultContracts.Error != nil {
